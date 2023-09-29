@@ -61,7 +61,7 @@ export default {
         //this.login()
         this.$router.push({name: 'login'})
       }
-      else {
+      else if (this.registerResp) {
         alert('错误码(' + this.registerResp.data.error_code + '):' + this.registerResp.data.error_msg)
       }
     }
