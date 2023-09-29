@@ -18,7 +18,7 @@ import { mapMutations } from 'vuex';
 import axios from 'axios';
 
 export default {
-  name: 'LoginView',
+  name: 'RegisterView',
   data() {
     return {
         username: '',
