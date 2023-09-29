@@ -7,7 +7,7 @@
       <label for="password">密码：</label>
       <input id="password" type="password" v-model="password" placeholder="请输入密码" required>
       <label for="password">确认密码：</label>
-      <input id="password" type="password" v-model="confirmPassword" placeholder="请输入密码" required>
+      <input id="password" type="password" v-model="confirmPassword" placeholder="请再次输入密码" required>
       <button type="submit">注册</button>
     </form>
   </div>
@@ -40,7 +40,7 @@ export default {
   methods: {
     ...mapMutations(['login']),
     async _register() {  
-      if (password != this.confirmPassword) {
+      if (this.password != this.confirmPassword) {
         alert("前后输入的密码不一致")
         return
       }
