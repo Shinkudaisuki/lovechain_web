@@ -4,10 +4,13 @@
     <form @submit.prevent="_register">
       <label for="username">用户名：</label>
       <input id="username" type="text" v-model="username" placeholder="请输入用户名" required>
+      <br/>
       <label for="password">密码：</label>
       <input id="password" type="password" v-model="password" placeholder="请输入密码" required>
+      <br/>
       <label for="password">确认密码：</label>
       <input id="password" type="password" v-model="confirmPassword" placeholder="请再次输入密码" required>
+      <br/>
       <button type="submit">注册</button>
     </form>
   </div>
@@ -46,8 +49,9 @@ export default {
       }
       //console.log("login button pressed");
       let registerData = new FormData();
+      let md5Password = this.$md5(this.password);
       registerData.append('username', this.username);
-      registerData.append('password', this.password);
+      registerData.append('password', md5Password);
       registerData.append('verify', this.verify);
       await axios.post('/administrator/register', registerData)
       .then(resp => {this.is_verify = resp.data.is_verify;

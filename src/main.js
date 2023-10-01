@@ -3,5 +3,12 @@ import { createApp } from 'vue'
 import App from './App.vue'
 import router from './router'
 import store from './store'
+import CryptoJS from 'crypto-js'
 
-createApp(App).use(store).use(router).mount('#app')
+const myMixin = {
+    created() {
+        this.$md5 = (data) => {return CryptoJS.MD5(data).toString()}
+    }
+}
+
+createApp(App).mixin(myMixin).use(store).use(router).mount('#app')

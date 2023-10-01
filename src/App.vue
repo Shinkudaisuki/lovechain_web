@@ -1,8 +1,8 @@
 <template>
   <nav>
-    <router-link to="/">Login</router-link> |
-    <router-link to="/register">Register</router-link> |
-    <router-link to="/about">About</router-link>
+    <router-link to="/">登录</router-link> |
+    <router-link to="/register">注册</router-link> |
+    <router-link to="/about">关于</router-link>
   </nav>
   <router-view/>
 </template>
