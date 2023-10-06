@@ -8,8 +8,24 @@
 </template>
 
 <script>
+import { mapMutations, mapState } from 'vuex';
+
 export default {
   name: 'App',
+  mounted() {
+    window.addEventListener('resize', this.onResize)
+    this.onResize()
+  },
+  computed: {
+    ...mapState(['screenWidth'])
+  },
+  methods: {
+    ...mapMutations(['setScreenWidth']),
+    onResize() {
+      this.setScreenWidth(window.innerWidth)
+      //console.log(this.screenWidth)
+    },
+  }
 }
 </script>
 

@@ -14,7 +14,7 @@
 </template>
 
 <script>
-import { mapMutations } from 'vuex';
+import { mapMutations, mapState } from 'vuex';
 import axios from 'axios';
 
 export default {
@@ -35,6 +35,11 @@ export default {
     .then(resp => {this.verify = resp.data.verify;})
     .catch(error => (alert("Mounted Post Error")))
     // console.log(this.verify)
+    console.log(this.$store.state.screenWidth)
+    console.log(this.$store.getters.screenType)
+  },
+  computed: {
+    ...mapState(['screenWidth'])
   },
   methods: {
     ...mapMutations(['login']),
