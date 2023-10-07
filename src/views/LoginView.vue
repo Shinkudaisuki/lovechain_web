@@ -1,6 +1,6 @@
 ﻿<template>
   <div>
-    <h1>登录</h1>
+    <h1>登录({{ screenType }})</h1>
     <form @submit.prevent="_login">
       <label for="username">用户名：</label>
       <input id="username" type="text" v-model="username" placeholder="请输入用户名" required>
@@ -14,7 +14,7 @@
 </template>
 
 <script>
-import { mapMutations, mapState } from 'vuex';
+import { mapMutations, mapState, mapGetters } from 'vuex';
 import axios from 'axios';
 
 export default {
@@ -39,7 +39,8 @@ export default {
     console.log(this.$store.getters.screenType)
   },
   computed: {
-    ...mapState(['screenWidth'])
+    ...mapState(['screenWidth']),
+    ...mapGetters(['screenType'])
   },
   methods: {
     ...mapMutations(['login']),
