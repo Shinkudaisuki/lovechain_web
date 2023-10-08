@@ -38,6 +38,7 @@ export default {
         password: '',
         confirmPassword: '',
         phoneNumber: '',
+        phoneVerification: '',
         verified: false,
         token: '',
         verify: '',
