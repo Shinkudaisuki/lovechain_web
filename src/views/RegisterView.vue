@@ -13,9 +13,12 @@
       <br/>
       <label for="phonenumber">手机号码：</label>
       <input id="phonenumber" type="text" v-model="phoneNumber" placeholder="请输入手机号码" required>
-      <button @click="send_sms" :disabled="!isPhoneNumberValid">发送短信</button>
+      <button @click="send_sms" :disabled="!isPhoneNumberValid">发送验证码</button>
       <br/>
       <strong v-show="!isPhoneNumberValid">手机号码格式不正确</strong>
+      <br/>
+      <label for="phoneVerification">验证码：</label>
+      <input id="phoneVerification" type="text" v-model="phoneVerification" placeholder="请输入验证码" required>
       <br/>
       <!-- <button type="submit">注册</button> -->
       <input type="submit" value="注册"/>
@@ -84,7 +87,6 @@ export default {
     },
     async send_sms() {
       axios.post('/administrator/register/sms', {phone_num: this.phoneNumber})
-      .then(resp => {console.log(resp)})
       .catch(eror => {alert("send_sms Post Error")})
     }
   }
