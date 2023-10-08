@@ -16,6 +16,7 @@
       <button @click="send_sms" :disabled="!isPhoneNumberValid">发送验证码</button>
       <br/>
       <strong v-show="!isPhoneNumberValid">手机号码格式不正确</strong>
+      <strong v-show="isPhoneNumberUsed">手机号码已被注册</strong>
       <br/>
       <label for="phoneVerification">验证码：</label>
       <input id="phoneVerification" type="text" v-model="phoneVerification" placeholder="请输入验证码" required>
@@ -44,11 +45,15 @@ export default {
         verify: '',
         is_verify: 0,
         registerResp: undefined,
+        smsResult: null,
     }
   },
   computed: {
     isPhoneNumberValid: function () {
       return /^1[3456789]\d{9}$/.test(this.phoneNumber)
+    },
+    isPhoneNumberUsed: function () {
+      return (this.smsResult == 2000)? true : false
     }
   },
   mounted() {
@@ -70,6 +75,8 @@ export default {
       registerData.append('username', this.username);
       registerData.append('password', md5Password);
       registerData.append('verify', this.verify);
+      registerData.append('phone', this.phoneNumber);
+      registerData.append('verify_code', this.phoneVerification);
       await axios.post('/administrator/register', registerData)
       .then(resp => {this.is_verify = resp.data.is_verify;
         console.log(resp);
@@ -88,6 +95,7 @@ export default {
     },
     async send_sms() {
       axios.post('/administrator/register/sms', {phone_num: this.phoneNumber})
+      .then(resp => {this.smsResult = resp.data.result})
       .catch(eror => {alert("send_sms Post Error")})
     }
   }
