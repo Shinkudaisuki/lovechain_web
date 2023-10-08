@@ -11,7 +11,14 @@
       <label for="password">确认密码：</label>
       <input id="password" type="password" v-model="confirmPassword" placeholder="请再次输入密码" required>
       <br/>
-      <button type="submit">注册</button>
+      <label for="phonenumber">手机号码：</label>
+      <input id="phonenumber" type="text" v-model="phoneNumber" placeholder="请输入手机号码" required>
+      <button @click="send_sms" :disabled="!isPhoneNumberValid">发送短信</button>
+      <br/>
+      <strong v-show="!isPhoneNumberValid">手机号码格式不正确</strong>
+      <br/>
+      <!-- <button type="submit">注册</button> -->
+      <input type="submit" value="注册"/>
     </form>
   </div>
 </template>
@@ -27,11 +34,17 @@ export default {
         username: '',
         password: '',
         confirmPassword: '',
+        phoneNumber: '',
         verified: false,
         token: '',
         verify: '',
         is_verify: 0,
         registerResp: undefined,
+    }
+  },
+  computed: {
+    isPhoneNumberValid: function () {
+      return /^1[3456789]\d{9}$/.test(this.phoneNumber)
     }
   },
   mounted() {
@@ -68,6 +81,11 @@ export default {
       else if (this.registerResp) {
         alert('错误码(' + this.registerResp.data.error_code + '):' + this.registerResp.data.error_msg)
       }
+    },
+    async send_sms() {
+      axios.post('/administrator/register/sms', {phone_num: this.phoneNumber})
+      .then(resp => {console.log(resp)})
+      .catch(eror => {alert("send_sms Post Error")})
     }
   }
 }
