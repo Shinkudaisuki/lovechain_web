@@ -13,7 +13,8 @@
       <br/>
       <label for="phonenumber">手机号码：</label>
       <input id="phonenumber" type="text" v-model="phoneNumber" placeholder="请输入手机号码" required>
-      <button @click="send_sms" :disabled="!isPhoneNumberValid">发送验证码</button>
+      <button v-show="!countDown" @click="send_sms" :disabled="!isPhoneNumberValid">发送验证码</button>
+      <button v-show="countDown" disabled="true">{{ countDownSeconds }}s后重新发送</button>
       <br/>
       <strong v-show="!isPhoneNumberValid">手机号码格式不正确</strong>
       <strong v-show="isPhoneNumberUsed">手机号码已被注册</strong>
@@ -46,6 +47,9 @@ export default {
         is_verify: 0,
         registerResp: undefined,
         smsResult: null,
+        timerId: null,
+        countDown: false,
+        countDownSeconds: 0,
     }
   },
   computed: {
@@ -94,9 +98,25 @@ export default {
       }
     },
     async send_sms() {
-      axios.post('/administrator/register/sms', {phone_num: this.phoneNumber})
-      .then(resp => {this.smsResult = resp.data.result})
-      .catch(eror => {alert("send_sms Post Error")})
+      const TIME_COUNT = 60
+      if (!this.timerId) {
+        axios.post('/administrator/register/sms', {phone_num: this.phoneNumber})
+        .then(resp => {this.smsResult = resp.data.result})
+        .catch(eror => {alert("send_sms Post Error")})
+        this.countDownSeconds = TIME_COUNT
+        this.countDown = true
+        this.timerId = setInterval(() => {
+          if (this.countDownSeconds > 0 && this.countDownSeconds <= TIME_COUNT) {
+            this.countDownSeconds--;
+          }
+          else {
+            this.countDown = false
+            clearInterval(this.timerId)
+            this.timerId = null
+          }
+        }, 1000)
+      }
+      
     }
   }
 }
