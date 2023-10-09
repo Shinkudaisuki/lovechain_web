@@ -8,7 +8,17 @@
       <label for="password">密码：</label>
       <input id="password" type="password" v-model="password" placeholder="请输入密码" required>
       <br/>
+      <input type="radio" id="user" value="User" v-model="picked">
+      <label for="option1">用户</label>
+      
+      <input type="radio" id="admin" value="Admin" v-model="picked">
+      <label for="option2">管理员</label>
+
+      <input type="radio" id="businessman" value="Businessman" v-model="picked">  
+      <label for="option3">商家</label>
+      <br/>
       <button type="submit">登录</button>
+      <br>
     </form>
   </div>
 </template>
@@ -28,8 +38,11 @@ export default {
         verify: '',
         is_verify: 0,
         loginResp: undefined,
+        picked:'',
+        userType:''
     }
   },
+
   mounted() {
     axios.post('/administrator/login/verify')
     .then(resp => {this.verify = resp.data.verify;})
@@ -56,16 +69,34 @@ export default {
                     console.log(resp);
                     this.loginResp = resp})
       .catch(error => (alert("Login Post Error")))
-
       console.log(this.is_verify)
-      if (this.is_verify) {
-        console.log("login")
-        this.login()
-        this.$router.push({name: 'home'})
+      if(this.is_verify)
+      {
+        switch (this.picked) {
+        case 'User':
+          console.log("User login");
+          this.login()
+          this.$router.push({name: 'home'})
+          break;
+        case 'Businessman':
+          console.log("Businessman login");
+          this.login()
+          this.$router.push({name: 'home'})
+          break;
+        case 'Admin':
+          console.log("Admin login");
+          this.login()
+          this.$router.push({name: 'home'})
+          break;
+        default:
+          console.error("What???");
+          break;
+        }
       }
       else if (this.loginResp) {
         alert('错误码(' + this.loginResp.data.error_code + '):' + this.loginResp.data.error_msg)
       }
+
     }
   }
 }
