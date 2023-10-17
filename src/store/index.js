@@ -4,6 +4,8 @@ const store = createStore({
   state() {
     return {
       isLoggedIn: false,
+      role: null,
+      token: null,
       screenWidth: null,
     }
   },
@@ -21,11 +23,14 @@ const store = createStore({
     }
   },
   mutations: {
-    login(state) {
+    login(state, role, token) {
       state.isLoggedIn = true
+      state.role = role
+      state.token = token
     },
     logout(state) {
       state.isLoggedIn = false
+      state.role = null
     },
     setScreenWidth(state, screenWidth) {
       state.screenWidth = screenWidth

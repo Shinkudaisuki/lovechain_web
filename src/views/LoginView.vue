@@ -33,13 +33,11 @@ export default {
     return {
         username: '',
         password: '',
-        verified: false,
         token: '',
         verify: '',
         is_verify: 0,
         loginResp: undefined,
         picked:'User',
-        userType:'',
     }
   },
 
@@ -57,8 +55,7 @@ export default {
   },
   methods: {
     ...mapMutations(['login']),
-    async _login() {  
-      //console.log("login button pressed");
+    async _login() {
       let loginData = new FormData();
       let md5Password = this.$md5(this.password)
       loginData.append('username', this.username);
@@ -92,7 +89,7 @@ export default {
       }
       if(this.is_verify)
       {
-        this.login()
+        this.login(this.picked, this.loginResp.data.token)
         this.$router.push({name: 'home'})
       }
       else if (this.loginResp) {
