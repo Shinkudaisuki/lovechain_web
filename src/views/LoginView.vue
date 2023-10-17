@@ -65,62 +65,38 @@ export default {
       loginData.append('password', md5Password);
       loginData.append('verify', this.verify);
       loginData.append('userType',this.picked);
+      var loginUrl = ''
       switch(this.picked){
         case 'User':
-          await axios.post('/user/login', loginData)
-          .then(resp => {this.is_verify = resp.data.is_verify;
-                        console.log(resp);
-                        this.loginResp = resp})
-          .catch(error => (alert("Login Post Error")))
-          console.log(this.is_verify)
-          if(this.is_verify)
-          {
-            console.log("User login");
-            this.login()
-            this.$router.push({name: 'home'})
-          }
-          else if (this.loginResp) {
-          alert('错误码(' + this.loginResp.data.error_code + '):' + this.loginResp.data.error_msg)
-          }
+          loginUrl = '/user/login'
           break;
 
         case 'Businessman':
-          await axios.post('/merchant/login', loginData)
-          .then(resp => {this.is_verify = resp.data.is_verify;
-                        console.log(resp);
-                        this.loginResp = resp})
-          .catch(error => (alert("Login Post Error")))
-          console.log(this.is_verify)
-          if(this.is_verify)
-          {
-            console.log("merchant login");
-            this.login()
-            this.$router.push({name: 'home'})
-          }
-          else if (this.loginResp) {
-          alert('错误码(' + this.loginResp.data.error_code + '):' + this.loginResp.data.error_msg)
-          }
+          loginUrl = '/merchant/login'
           break;
+
         case 'Admin':
-          await axios.post('/administrator/login', loginData)
-          .then(resp => {this.is_verify = resp.data.is_verify;
-                        console.log(resp);
-                        this.loginResp = resp})
-          .catch(error => (alert("Login Post Error")))
-          console.log(this.is_verify)
-          if(this.is_verify)
-          {
-            console.log("Admin login");
-            this.login()
-            this.$router.push({name: 'home'})
-          }
-          else if (this.loginResp) {
-          alert('错误码(' + this.loginResp.data.error_code + '):' + this.loginResp.data.error_msg)
-          }
+          loginUrl = '/administrator/login'
           break;
+
         default:
           console.error("What???");
           break;
+      }
+      if (loginUrl) {
+        await axios.post(loginUrl, loginData)
+        .then(resp => {this.is_verify = resp.data.is_verify;
+                      console.log(resp);
+                      this.loginResp = resp})
+        .catch(error => (alert("Login Post Error")))
+      }
+      if(this.is_verify)
+      {
+        this.login()
+        this.$router.push({name: 'home'})
+      }
+      else if (this.loginResp) {
+      alert('错误码(' + this.loginResp.data.error_code + '):' + this.loginResp.data.error_msg)
       }
     //   await axios.post('/administrator/login', loginData)
     //   .then(resp => {this.is_verify = resp.data.is_verify;
