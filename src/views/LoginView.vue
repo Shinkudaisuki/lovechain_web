@@ -27,6 +27,7 @@
 import { mapMutations, mapState, mapGetters } from 'vuex';
 import axios from 'axios';
 
+
 export default {
   name: 'LoginView',
   data() {
@@ -91,6 +92,7 @@ export default {
       {
         this.login(this.picked, this.loginResp.data.token)
         this.$router.push({name: 'home'})
+        axios.defaults.headers.common['Authorization'] = 'Bearer ' + this.loginResp.data.token
       }
       else if (this.loginResp) {
       alert('错误码(' + this.loginResp.data.error_code + '):' + this.loginResp.data.error_msg)
