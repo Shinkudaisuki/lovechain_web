@@ -5,19 +5,26 @@
       <label for="username">用户名：</label>
       <input id="username" type="text" v-model="username" placeholder="请输入用户名" required>
       <br/>
+      <select v-model="selected" name="userType" required>
+        <option value="">请选择您的身份</option>
+        <option value="User">用户</option>
+        <option value="Admin">管理员</option>
+        <option value="Businessman">商家</option>
+      </select>
+      <br/>
       <label for="password">密码：</label>
       <input id="password" type="password" v-model="password" placeholder="请输入密码" required>
       <br/>
       <label for="password">确认密码：</label>
-      <input id="password" type="password" v-model="confirmPassword" placeholder="请再次输入密码" required>
+      <input id="password" type="password" v-model="confirmPassword" placeholder="请再次输入密码" required> 
       <br/>
       <label for="phonenumber">手机号码：</label>
       <input id="phonenumber" type="text" v-model="phoneNumber" placeholder="请输入手机号码" required>
       <button v-show="!countDown" @click="send_sms" :disabled="!isPhoneNumberValid">发送验证码</button>
       <button v-show="countDown" disabled="true">{{ countDownSeconds }}s后重新发送</button>
       <br/>
-      <strong v-show="!isPhoneNumberValid">手机号码格式不正确</strong>
-      <strong v-show="isPhoneNumberUsed">手机号码已被注册</strong>
+      <span v-show="!isPhoneNumberValid">手机号码格式不正确</span>
+      <span v-show="isPhoneNumberUsed">手机号码已被注册</span>
       <br/>
       <label for="phoneVerification">验证码：</label>
       <input id="phoneVerification" type="text" v-model="phoneVerification" placeholder="请输入验证码" required>
@@ -50,6 +57,8 @@ export default {
         timerId: null,
         countDown: false,
         countDownSeconds: 0,
+        selected:'',
+        userType:'',
     }
   },
   computed: {
@@ -81,6 +90,7 @@ export default {
       registerData.append('verify', this.verify);
       registerData.append('phone', this.phoneNumber);
       registerData.append('verify_code', this.phoneVerification);
+      registerData.append('userType',this.selected);
       await axios.post('/administrator/register', registerData)
       .then(resp => {this.is_verify = resp.data.is_verify;
         console.log(resp);
