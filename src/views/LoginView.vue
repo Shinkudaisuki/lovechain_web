@@ -90,9 +90,10 @@ export default {
       }
       if(this.is_verify)
       {
+        axios.defaults.headers.common['Authorization'] = 'Bearer ' + this.loginResp.data.token
+        console.log(axios.defaults.headers.common['Authorization'])
         this.login(this.picked, this.loginResp.data.token)
         this.$router.push({name: 'home'})
-        axios.defaults.headers.common['Authorization'] = 'Bearer ' + this.loginResp.data.token
       }
       else if (this.loginResp) {
       alert('错误码(' + this.loginResp.data.error_code + '):' + this.loginResp.data.error_msg)
