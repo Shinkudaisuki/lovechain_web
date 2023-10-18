@@ -15,8 +15,9 @@ export default {
     },
   mounted() {
     qParams = {token: this.$store.token,
-              role: this.$store.role}
-    axios.post('/query/projectitems')
+              role: this.$store.role,
+              range: [0, 10]}
+    axios.post('/query/projectitems', qParams)
   }
 }
 </script>
