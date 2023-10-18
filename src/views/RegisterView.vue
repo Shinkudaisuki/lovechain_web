@@ -37,7 +37,7 @@
 
 <script>
 import { mapMutations } from 'vuex';
-import axios from 'axios';
+// import axios from 'axios';
 
 export default {
   name: 'RegisterView',
@@ -70,7 +70,7 @@ export default {
     }
   },
   mounted() {
-    axios.post('/administrator/register/verify')
+    this.$axios.post('/administrator/register/verify')
     .then(resp => {this.verify = resp.data.verify;})
     .catch(error => (alert("Mounted Post Error")))
     // console.log(this.verify)
@@ -91,7 +91,7 @@ export default {
       registerData.append('phone', this.phoneNumber);
       registerData.append('verify_code', this.phoneVerification);
       registerData.append('userType',this.selected);
-      await axios.post('/administrator/register', registerData)
+      await this.$axios.post('/administrator/register', registerData)
       .then(resp => {this.is_verify = resp.data.is_verify;
         console.log(resp);
         this.registerResp = resp})
@@ -110,7 +110,7 @@ export default {
     async send_sms() {
       const TIME_COUNT = 60
       if (!this.timerId) {
-        axios.post('/administrator/register/sms', {phone_num: this.phoneNumber})
+        this.$axios.post('/administrator/register/sms', {phone_num: this.phoneNumber})
         .then(resp => {this.smsResult = resp.data.result})
         .catch(eror => {alert("send_sms Post Error")})
         this.countDownSeconds = TIME_COUNT

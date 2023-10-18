@@ -3,7 +3,7 @@
 </template>
 
 <script>
-import axios from 'axios';
+// import axios from 'axios';
 
 
 export default {
@@ -17,8 +17,8 @@ export default {
     var qParams = {token: this.$store.token,
                   role: this.$store.role,
                   range: [0, 10]}
-    console.log(axios.defaults.headers.common['Authorization'])
-    axios.post('/query/projectitems', qParams)
+    console.log(this.$axios.defaults.headers.common['Authorization'])
+    this.$axios.post('/query/projectitems', qParams)
   }
 }
 </script>

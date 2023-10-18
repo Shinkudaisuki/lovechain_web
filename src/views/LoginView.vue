@@ -25,7 +25,7 @@
 
 <script>
 import { mapMutations, mapState, mapGetters } from 'vuex';
-import axios from 'axios';
+// import axios from 'axios';
 
 
 export default {
@@ -43,7 +43,7 @@ export default {
   },
 
   mounted() {
-    axios.post('/administrator/login/verify')
+    this.$axios.post('/administrator/login/verify')
     .then(resp => {this.verify = resp.data.verify;})
     .catch(error => (alert("Mounted Post Error")))
     // console.log(this.verify)
@@ -57,6 +57,7 @@ export default {
   methods: {
     ...mapMutations(['login']),
     async _login() {
+      
       let loginData = new FormData();
       let md5Password = this.$md5(this.password)
       loginData.append('username', this.username);
@@ -82,7 +83,7 @@ export default {
           break;
       }
       if (loginUrl) {
-        await axios.post(loginUrl, loginData)
+        await this.$axios.post(loginUrl, loginData)
         .then(resp => {this.is_verify = resp.data.is_verify;
                       console.log(resp);
                       this.loginResp = resp})
@@ -90,8 +91,8 @@ export default {
       }
       if(this.is_verify)
       {
-        axios.defaults.headers.common['Authorization'] = 'Bearer ' + this.loginResp.data.token
-        console.log(axios.defaults.headers.common['Authorization'])
+        this.$axios.defaults.headers.common['Authorization'] = 'Bearer ' + this.loginResp.data.token
+        //console.log(this.$axios.defaults.headers.common['Authorization'])
         this.login(this.picked, this.loginResp.data.token)
         this.$router.push({name: 'home'})
       }
