@@ -1,5 +1,5 @@
 ﻿<template>
-
+  <div>to be implemented</div>
 </template>
 
 <script>
