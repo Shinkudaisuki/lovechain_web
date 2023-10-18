@@ -85,7 +85,6 @@ export default {
       if (loginUrl) {
         await this.$axios.post(loginUrl, loginData)
         .then(resp => {this.is_verify = resp.data.is_verify;
-                      console.log(resp);
                       this.loginResp = resp})
         .catch(error => (alert("Login Post Error")))
       }

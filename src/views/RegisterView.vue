@@ -93,11 +93,10 @@ export default {
       registerData.append('userType',this.selected);
       await this.$axios.post('/administrator/register', registerData)
       .then(resp => {this.is_verify = resp.data.is_verify;
-        console.log(resp);
         this.registerResp = resp})
       .catch(error => (alert("Login Post Error")))
 
-      console.log(this.is_verify)
+      // console.log(this.is_verify)
       if (this.is_verify) {
         //console.log("login")
         //this.login()
