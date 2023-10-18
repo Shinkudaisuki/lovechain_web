@@ -13,5 +13,5 @@ const myMixin = {
 }
 
 const app = createApp(App).mixin(myMixin).use(store).use(router)
-app.config.globalProperties.$axios = axios.create()
+app.config.globalProperties.$axios = axios
 app.mount('#app')

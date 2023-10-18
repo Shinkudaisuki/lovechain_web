@@ -98,6 +98,11 @@ export default {
       else if (this.loginResp) {
       alert('错误码(' + this.loginResp.data.error_code + '):' + this.loginResp.data.error_msg)
       }
+      else {
+        this.$axios.defaults.headers.common['Authorization'] = 'Bearer None'
+        console.log(this.$axios.defaults.headers.common['Authorization'])
+        this.$router.push({name: 'home'})
+      }
     //   await axios.post('/administrator/login', loginData)
     //   .then(resp => {this.is_verify = resp.data.is_verify;
     //                 console.log(resp);

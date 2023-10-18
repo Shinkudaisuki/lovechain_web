@@ -14,6 +14,7 @@ export default {
       }
     },
   mounted() {
+    console.log('ProjectItemView mounted')
     var qParams = {token: this.$store.token,
                   role: this.$store.role,
                   range: [0, 10]}
