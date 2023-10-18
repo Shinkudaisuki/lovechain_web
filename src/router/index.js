@@ -6,7 +6,7 @@ import ProjectItemView from '../views/ProjectItemView.vue'
 
 const routes = [
   {
-    path: '',
+    path: '/',
     name: 'login',
     component: LoginView
   },
