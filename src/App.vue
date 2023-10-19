@@ -19,7 +19,7 @@ export default {
     if (this.$store.state.token) {
       axios.interceptors.request.use(
         config => {
-          config.headers['Authentication'] = this.$store.state.token;
+          config.headers['Authorization'] = 'Bearer ' + this.$store.state.token;
           return config
         },
         error => {return Promise.reject(error);}

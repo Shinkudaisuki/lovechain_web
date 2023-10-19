@@ -93,7 +93,7 @@ export default {
         this.token = this.loginResp.data.token
         axios.interceptors.request.use(
           config => {
-            config.headers['Authentication'] = 'Bearer ' + this.token;
+            config.headers['Authorization'] = 'Bearer ' + this.token;
             return config
           },
           error => {return Promise.reject(error);}
@@ -109,7 +109,7 @@ export default {
         console.log('debug login')
         axios.interceptors.request.use(
           config => {
-            config.headers['Authentication'] = 'Bearer debug';
+            config.headers['Authorization'] = 'Bearer debug';
             return config
           },
           error => {return Promise.reject(error);}
