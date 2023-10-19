@@ -13,7 +13,7 @@
     </thead>
     <tbody v-if="resp">
       <tr v-for="project in resp.data" :key="project.ProjectID">
-        <td v-for="(value, key) in project" :key="key">{{ item }}</td>
+        <td v-for="(value, key) in project" :key="key">{{ value }}</td>
       </tr>
     </tbody>
   </table>
