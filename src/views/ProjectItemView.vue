@@ -10,16 +10,18 @@ export default {
   name: 'ProjectItemView',
   data() {
     return {
-
+      resp: undefined,
       }
     },
   mounted() {
-    console.log('ProjectItemView mounted')
-    var qParams = {token: this.$store.token,
-                  role: this.$store.role,
+    //console.log('ProjectItemView mounted')
+    // TODO: Fix bug here
+    var qParams = {token: this.$store.state.token,
+                  role: this.$store.state.role,
                   range: [0, 10]}
-    console.log(this.$axios.defaults.headers.common['Authorization'])
-    this.$axios.post('/query/projectitems', qParams)
+    axios.post('/query/projectitems', qParams)
+    .then(resp => {this.resp = resp})
+    .catch(error => {console.log('ProjectItemView Post Error')})
   }
 }
 </script>

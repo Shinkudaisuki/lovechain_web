@@ -9,9 +9,23 @@
 
 <script>
 import { mapMutations, mapState } from 'vuex';
+import axios from 'axios';
 
 export default {
   name: 'App',
+  created() {
+    //console.log('App created')
+    //console.log(this.$store.state)
+    if (this.$store.state.token) {
+      axios.interceptors.request.use(
+        config => {
+          config.headers['Authentication'] = this.$store.state.token;
+          return config
+        },
+        error => {return Promise.reject(error);}
+      )
+    }
+  },
   mounted() {
     window.addEventListener('resize', this.onResize)
     this.onResize()

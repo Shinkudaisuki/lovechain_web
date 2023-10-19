@@ -25,7 +25,7 @@
 
 <script>
 import { mapMutations, mapState, mapGetters } from 'vuex';
-// import axios from 'axios';
+import axios from 'axios';
 
 
 export default {
@@ -43,7 +43,7 @@ export default {
   },
 
   mounted() {
-    this.$axios.post('/administrator/login/verify')
+    axios.post('/administrator/login/verify')
     .then(resp => {this.verify = resp.data.verify;})
     .catch(error => (alert("Mounted Post Error")))
     // console.log(this.verify)
@@ -83,24 +83,39 @@ export default {
           break;
       }
       if (loginUrl) {
-        await this.$axios.post(loginUrl, loginData)
+        await axios.post(loginUrl, loginData)
         .then(resp => {this.is_verify = resp.data.is_verify;
                       this.loginResp = resp})
         .catch(error => (alert("Login Post Error")))
       }
       if(this.is_verify)
       {
-        this.$axios.defaults.headers.common['Authorization'] = 'Bearer ' + this.loginResp.data.token
-        //console.log(this.$axios.defaults.headers.common['Authorization'])
-        this.login(this.picked, this.loginResp.data.token)
+        this.token = this.loginResp.data.token
+        axios.interceptors.request.use(
+          config => {
+            config.headers['Authentication'] = 'Bearer ' + this.token;
+            return config
+          },
+          error => {return Promise.reject(error);}
+        )
+        this.login({role: this.picked, token: this.token})
         this.$router.push({name: 'home'})
       }
       else if (this.loginResp) {
       alert('错误码(' + this.loginResp.data.error_code + '):' + this.loginResp.data.error_msg)
       }
+      // delete the else chunk when deployed
       else {
-        this.$axios.defaults.headers.common['Authorization'] = 'Bearer None'
-        console.log(this.$axios.defaults.headers.common['Authorization'])
+        console.log('debug login')
+        axios.interceptors.request.use(
+          config => {
+            config.headers['Authentication'] = 'Bearer debug';
+            return config
+          },
+          error => {return Promise.reject(error);}
+        )
+        this.token = 'Bearer debug'
+        this.login({role: this.picked, token: this.token})
         this.$router.push({name: 'home'})
       }
     //   await axios.post('/administrator/login', loginData)

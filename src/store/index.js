@@ -1,4 +1,5 @@
 import { createStore } from 'vuex'
+import createPersistedState from 'vuex-persistedstate'
 
 const store = createStore({
   state() {
@@ -23,14 +24,15 @@ const store = createStore({
     }
   },
   mutations: {
-    login(state, role, token) {
+    login(state, payload) {
       state.isLoggedIn = true
-      state.role = role
-      state.token = token
+      state.token = payload.token
+      state.role = payload.role
     },
     logout(state) {
       state.isLoggedIn = false
       state.role = null
+      state.token = null
     },
     setScreenWidth(state, screenWidth) {
       state.screenWidth = screenWidth
@@ -39,7 +41,12 @@ const store = createStore({
   actions: {
   },
   modules: {
-  }
+  },
+  plugins: [
+    createPersistedState({
+      storage: window.sessionStorage
+    })
+  ]
 })
 
 export default store
