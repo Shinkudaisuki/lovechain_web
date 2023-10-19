@@ -116,7 +116,8 @@ export default {
         )
         this.token = 'Bearer debug'
         this.login({role: this.picked, token: this.token})
-        this.$router.push({name: 'home'})
+        const children = 'ProjectItemView'
+        this.$router.push({ name: 'home' })
       }
     //   await axios.post('/administrator/login', loginData)
     //   .then(resp => {this.is_verify = resp.data.is_verify;

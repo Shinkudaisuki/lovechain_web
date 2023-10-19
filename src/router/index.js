@@ -3,6 +3,7 @@ import HomeView from '../views/HomeView.vue'
 import LoginView from '../views/LoginView.vue'
 import RegisterView from '../views/RegisterView.vue'
 import ProjectItemView from '../views/ProjectItemView.vue'
+import AboutView from '../views/AboutView.vue'
 
 const routes = [
   {
@@ -17,15 +18,15 @@ const routes = [
   },
   {
     path: '/home',
-    name: 'home',
     component: HomeView,
     children: [
       {
-        path: 'ProjectItemView',
+        path: '',
+        name: 'home',
         component: ProjectItemView
       },
       {
-        path: '',
+        path: 'ProjectItemView',
         component: ProjectItemView
       }
     ]
