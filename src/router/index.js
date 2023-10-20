@@ -4,6 +4,7 @@ import LoginView from '../views/LoginView.vue'
 import RegisterView from '../views/RegisterView.vue'
 import ProjectItemView from '../views/ProjectItemView.vue'
 import AboutView from '../views/AboutView.vue'
+import test from '../views/test.vue'
 
 const routes = [
   {
@@ -28,6 +29,10 @@ const routes = [
       {
         path: 'ProjectItemView',
         component: ProjectItemView
+      },
+      {
+        path:'test',
+        component:test
       }
     ]
   },
