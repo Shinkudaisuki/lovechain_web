@@ -1,9 +1,9 @@
 <template>
-  <nav>
+<!--   <nav>
     <router-link to="/">登录</router-link> |
     <router-link to="/register">注册</router-link> |
     <router-link to="/about">关于</router-link>
-  </nav>
+  </nav> -->
   <router-view/>
 </template>
 

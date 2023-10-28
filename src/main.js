@@ -6,7 +6,7 @@ import store from './store'
 import CryptoJS from 'crypto-js'
 import axios from 'axios';
 import ElementPlus from 'element-plus';
-import 'element-plus/lib/theme-chalk/index.css';
+import 'element-plus/dist/index.css';
 
 const myMixin = {
   created() {
