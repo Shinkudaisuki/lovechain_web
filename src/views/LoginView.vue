@@ -1,24 +1,29 @@
 ﻿<template>
   <div>
     <h1>登录({{ screenType }})</h1>
-    <form @submit.prevent="_login">
-      <label for="username">用户名：</label>
-      <input id="username" type="text" v-model="username" placeholder="请输入用户名" required>
+    <form @submit.prevent="_login" class="login-form">
+      <div class="form-group">
+        <label for="username">用户名：</label>
+        <input id="username" type="text" v-model="username" placeholder="请输入用户名" required>
+      </div>
+      <div class="form-group">
+        <label for="password">密码：</label>
+        <input id="password" type="password" v-model="password" placeholder="请输入密码" required>
+      </div>
       <br/>
-      <label for="password">密码：</label>
-      <input id="password" type="password" v-model="password" placeholder="请输入密码" required>
-      <br/>
-      <input type="radio" id="user" value="User" v-model="picked">
-      <label for="user">用户</label>
+      <div class="radio-group">
+        <input type="radio" id="user" value="User" v-model="picked">
+        <label for="user">用户</label>
       
-      <input type="radio" id="admin" value="Admin" v-model="picked">
-      <label for="admin">管理员</label>
+        <input type="radio" id="admin" value="Admin" v-model="picked">
+        <label for="admin">管理员</label>
 
-      <input type="radio" id="businessman" value="Businessman" v-model="picked">  
-      <label for="businessman">商家</label>
+        <input type="radio" id="businessman" value="Businessman" v-model="picked">  
+        <label for="businessman">商家</label>
+      </div>
       <br/>
-      <button type="submit">登录</button>
-      <br>
+      <button type="submit" class="login-button">登录</button>
+      <button @click="_register" class="login-button">注册</button>
     </form>
   </div>
 </template>
@@ -67,7 +72,7 @@ export default {
       var loginUrl = ''
       switch(this.picked){
         case 'User':
-          loginUrl = '/user/login'
+          loginUrl = '/home'
           break;
 
         case 'Businessman':
@@ -85,6 +90,7 @@ export default {
       if (loginUrl) {
         await axios.post(loginUrl, loginData)
         .then(resp => {this.is_verify = resp.data.is_verify;
+                      console.log(resp);
                       this.loginResp = resp})
         .catch(error => (alert("Login Post Error")))
       }
@@ -100,6 +106,7 @@ export default {
         )
         this.login({role: this.picked, token: this.token})
         this.$router.push({name: 'home'})
+        axios.defaults.headers.common['Authorization'] = 'Bearer ' + this.loginResp.data.token
       }
       else if (this.loginResp) {
       alert('错误码(' + this.loginResp.data.error_code + '):' + this.loginResp.data.error_msg)
@@ -153,9 +160,97 @@ export default {
     //   }
 
     // }
+    },
+    async _register()
+    {
+      this.$router.push({ name: 'register' }); // 通过路由的名称跳转
     }
   }
 }
 
 
 </script>
+<style scoped>
+
+/* 设置登录框的样式 */
+.form-container {
+  max-width: 400px;
+  margin: 0 auto;
+  padding: 20px;
+  background-color: #fff;
+  border-radius: 5px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+/* 设置标题样式 */
+h1 {
+  text-align: center;
+  color: #333;
+}
+
+/* 设置表单容器样式 */
+.login-form {
+  max-width: 400px;
+  margin: 0 auto;
+  padding: 20px;
+  background-color: #fff;
+  border-radius: 5px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+.form-group {
+  display: flex; /* 使用 Flex 布局 */
+  justify-content: center; /* 水平居中 */
+  align-items: center; /* 垂直居中 */
+}
+
+.form-group label {
+  display: inline-block; /* 设置为内联块元素，使其在同一行显示 */
+  width: 120px; /* 或其他适当的宽度 */
+  margin-right: 10px; /* 控制标签和输入框之间的间距 */
+}
+
+input[type="text"],
+input[type="password"] {
+  width: 30%;
+  padding: 10px;
+  margin-top: 5px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 16px;
+}
+
+.radio-group {
+  display: flex;
+  justify-content: center; /* 水平居中 */
+  align-items: center; /* 垂直居中 */
+  margin-top: 10px;
+}
+
+.radio-group input[type="radio"] {
+  margin-right: 5px;
+}
+
+.radio-group label {
+  margin-right: 15px; /* 适当的间距，根据需要调整 */
+}
+
+/* 设置登录按钮样式 */
+.login-button {
+  display: block;
+  width: 20%;
+  margin: 3px auto; /* 使用这个样式来水平居中按钮 */
+  padding: 10px;
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  font-size: 18px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.login-button:hover {
+  background-color: #0056b3;
+}
+
+</style>

@@ -131,3 +131,92 @@ export default {
 }
 
 </script>
+<style scoped>
+/* 设置页面背景 */
+body {
+  background-color: #f2f2f2;
+  font-family: Arial, sans-serif;
+}
+
+/* 设置标题样式 */
+h1 {
+  text-align: center;
+  color: #333;
+  margin-top: 20px;
+}
+
+/* 设置表单容器样式 */
+form {
+  max-width: 400px;
+  margin: 0 auto;
+  padding: 20px;
+  background-color: #fff;
+  border-radius: 5px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+/* 设置标签样式 */
+label {
+  display: block;
+  margin-top: 10px;
+  color: #555;
+}
+
+/* 设置输入框样式 */
+input[type="text"],
+input[type="password"] {
+  width: 100%;
+  padding: 10px;
+  margin-top: 5px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 16px;
+}
+
+/* 设置下拉框样式 */
+select {
+  width: 100%;
+  padding: 10px;
+  margin-top: 5px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 16px;
+}
+
+/* 设置按钮样式 */
+button {
+  padding: 5px 10px; /* 缩小垂直内边距 */
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  font-size: 16px; /* 缩小字体大小 */
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+button:hover {
+  background-color: #0056b3;
+}
+
+/* 设置错误信息样式 */
+span {
+  color: red;
+}
+input[type="submit"] {
+  background-color: #007bff; /* 设置背景颜色 */
+  color: #fff; /* 设置字体颜色 */
+  border: none; /* 去除边框 */
+  border-radius: 5px; /* 圆角边框 */
+  padding: 10px 20px; /* 设置内边距，使按钮更宽一些 */
+  font-size: 18px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+input[type="submit"]:hover {
+  background-color: #0056b3; /* 鼠标悬停时的背景颜色 */
+}
+
+
+</style>
