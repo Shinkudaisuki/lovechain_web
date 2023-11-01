@@ -2,11 +2,11 @@
   <el-space wrap v-if="resp">
     <el-card v-for="project in resp.data" :key="project.ProjectID" class="box-card" style="width: 250px">
       <template #header>
-        <div class="card-header">
+        <div class="card-header" @click="toggleCardDetails(project)">
           <span>{{ project.ProjectID }}</span>
         </div>
       </template>
-      <div>
+      <div v-if="project.showDetails">
         <div>标题: {{ project.Title }}</div>
         <div>描述: {{ project.Description }}</div>
         <div>目标金额: {{ project.GoalAmount }}</div>
@@ -17,7 +17,6 @@
     </el-card>
   </el-space>
 </template>
-
 
 
 <script>
@@ -39,6 +38,11 @@ export default {
     axios.post('/query/projectitems', qParams)
     .then(resp => {this.resp = resp})
     .catch(error => {console.log('ProjectItemView Post Error')})
+  },
+  methods: {
+    toggleCardDetails(project) {
+      project.showDetails = !project.showDetails;
+    }
   }
 }
 </script>
