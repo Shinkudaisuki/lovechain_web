@@ -23,9 +23,9 @@ export default {
     }
   },
   mounted() {
-    const ProjectID = this.$route.params.ProjectID;
+    const ProjectTitle = this.$route.params.Title;
     // 使用POST请求从后端获取特定项目的详细信息
-    axios.post('/query/projectitems', { ProjectID: ProjectID })
+    axios.post('/query/projectdetails',{ ProjectTitle: ProjectTitle })
       .then(resp => {
         this.project = resp.data; 
       })

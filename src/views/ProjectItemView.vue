@@ -5,7 +5,7 @@
       <el-card v-for="project in resp.data" :key="project.ProjectID" class="project-card">
         <p>项目编号: {{ project.ProjectID }}</p>
         <p>标题: {{ project.Title }}</p>
-        <router-link :to="'/project/' + project.ProjectID">查看详情</router-link>
+        <router-link :to="'/project/' + project.Title">查看详情</router-link>
       </el-card>
     </el-space>
   </div>
