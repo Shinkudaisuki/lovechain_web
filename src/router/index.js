@@ -6,6 +6,7 @@ import RegisterView from '../views/RegisterView.vue'
 import ProjectItemView from '../views/ProjectItemView.vue'
 import AboutView from '../views/AboutView.vue'
 import test from '../views/test.vue'
+import ProjectDetail from '../views/ProjectDetail.vue'
 
 const routes = [
   {
