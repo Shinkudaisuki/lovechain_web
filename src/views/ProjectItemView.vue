@@ -1,22 +1,17 @@
 ﻿<template>
-  <el-space wrap v-if="resp">
-    <el-card v-for="project in resp.data" :key="project.ProjectID" class="box-card" style="width: 250px">
-      <template #header>
-        <div class="card-header" @click="toggleCardDetails(project)">
-          <span>{{ project.ProjectID }}</span>
-        </div>
-      </template>
-      <div v-if="project.showDetails">
-        <div>标题: {{ project.Title }}</div>
-        <div>描述: {{ project.Description }}</div>
-        <div>目标金额: {{ project.GoalAmount }}</div>
-        <div>已募集金额: {{ project.RaisedAmount }}</div>
-        <div>审核状态: {{ project.Status }}</div>
-        <div>商家名称: {{ project.MerchantName }}</div>
-      </div>
-    </el-card>
-  </el-space>
+  <div>
+    <h1>项目列表</h1>
+    <el-space wrap v-if="resp">
+      <el-card v-for="project in projects" :key="project.ProjectID" class="project-card">
+        <p>项目编号: {{ project.ProjectID }}</p>
+        <p>标题: {{ project.Title }}</p>
+        <router-link :to="'/project/' + project.ProjectID">查看详情</router-link>
+      </el-card>
+    </el-space>
+  </div>
 </template>
+
+
 
 
 <script>
@@ -38,11 +33,6 @@ export default {
     axios.post('/query/projectitems', qParams)
     .then(resp => {this.resp = resp})
     .catch(error => {console.log('ProjectItemView Post Error')})
-  },
-  methods: {
-    toggleCardDetails(project) {
-      project.showDetails = !project.showDetails;
-    }
   }
 }
 </script>
