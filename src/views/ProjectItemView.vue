@@ -2,7 +2,7 @@
   <div>
     <h1>项目列表</h1>
     <el-space wrap v-if="resp">
-      <el-card v-for="project in projects" :key="project.ProjectID" class="project-card">
+      <el-card v-for="project in resp.data" :key="project.ProjectID" class="project-card">
         <p>项目编号: {{ project.ProjectID }}</p>
         <p>标题: {{ project.Title }}</p>
         <router-link :to="'/project/' + project.ProjectID">查看详情</router-link>
