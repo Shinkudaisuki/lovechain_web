@@ -8,7 +8,7 @@
       <p>目标金额: {{ resp.data.TargetAmount }}</p>
       <p>已募集金额: {{ resp.data.RaisedAmount }}</p>
       <p>审核状态: {{ resp.data.ApprovalStatus }}</p>
-      <p>商家名称: {{ resp.data.bus_name.MerchantName }}</p>
+      <p>商家名称: {{ resp.data.bus_name}}</p>
     </el-card>
   </div>
 </template>
