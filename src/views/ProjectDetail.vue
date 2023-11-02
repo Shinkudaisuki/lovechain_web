@@ -19,8 +19,8 @@ import axios from 'axios';
 export default {
   data() {
     return {
-      project: null,
-    };
+      project: null
+    }
   },
   mounted() {
     const projectId = this.$route.params.projectId;
@@ -31,7 +31,7 @@ export default {
       })
       .catch(error => {
         console.error('获取项目详情失败', error);
-      });
-  },
-};
+      })
+  }
+}
 </script>
