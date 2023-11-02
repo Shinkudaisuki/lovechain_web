@@ -23,11 +23,11 @@ export default {
     }
   },
   mounted() {
-    const projectId = this.$route.params.projectId;
+    const ProjectID = this.$route.params.ProjectID;
     // 使用POST请求从后端获取特定项目的详细信息
-    axios.post('/query/projectitems', { projectId: projectId })
-      .then(response => {
-        this.project = response.data; 
+    axios.post('/query/projectitems', { ProjectID: ProjectID })
+      .then(resp => {
+        this.project = resp.data; 
       })
       .catch(error => {
         console.error('获取项目详情失败', error);
