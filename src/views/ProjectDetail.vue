@@ -27,7 +27,7 @@ export default {
     // 使用POST请求从后端获取特定项目的详细信息
     axios.post('/query/projectdetails',{ ProjectTitle: ProjectTitle })
       .then(resp => {
-        this.project = resp.data; 
+        this.project = resp; 
       })
       .catch(error => {
         console.error('获取项目详情失败', error);
