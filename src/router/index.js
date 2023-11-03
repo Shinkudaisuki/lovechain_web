@@ -6,6 +6,7 @@ import RegisterView from '../views/RegisterView.vue'
 import ProjectItemView from '../views/ProjectItemView.vue'
 import AboutView from '../views/AboutView.vue'
 import test from '../views/test.vue'
+import ProjectDetail from '../views/ProjectDetail.vue'
 
 const routes = [
   {
@@ -46,7 +47,7 @@ const routes = [
     component: () => import(/* webpackChunkName: "about" */ '../views/AboutView.vue')
   },
   {
-     path: '/project/:projectId',
+     path: '/project/:Title',
      name:'projectdetails',
      component: ProjectDetail
   }
