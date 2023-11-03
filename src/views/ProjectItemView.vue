@@ -31,11 +31,12 @@ export default {
                   role: this.$store.state.role,
                   range: [0, 10]}
     axios.post('/query/projectitems', qParams)
-    .then(resp => {this.resp = resp})
+    .then(resp => {this.resp = resp; console.log(resp)})
     .catch(error => {console.log('ProjectItemView Post Error')})
   },
   methods: {
     viewDetail() {
+      console.log("enter viewDetail")
       this.$router.push('/project/' + project.Title)
     }
   }

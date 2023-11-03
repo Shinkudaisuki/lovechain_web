@@ -20,5 +20,16 @@ for (const [key, component] of Object.entries(ElementPlusIconsVue)) {
   app.component(key, component)
 }
 app.config.globalProperties.$axios = axios.create()
+
+if (process.env.NODE_ENV == 'development') {
+  console.log('application running in development mode')
+  const Mock = require('./mock')
+  app.use(Mock)
+}
+else if (process.env.NODE_ENV == 'production') {
+  console.log('application running in production mode')
+}
+
+
 app.mount('#app')
 
