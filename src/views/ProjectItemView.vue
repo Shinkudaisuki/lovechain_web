@@ -2,7 +2,7 @@
   <div>
     <h1>项目列表</h1>
     <el-space wrap v-if="resp">
-      <el-card v-for="project in resp.data" :key="project.ProjectID" class="project-card" @click="() => {this.$router.push('/project/' + project.ProjectID)}">
+      <el-card v-for="project in resp.data" :key="project.ProjectID" class="project-card" @click="viewDetail">
         <p>项目编号: {{ project.ProjectID }}</p>
         <p>标题: {{ project.Title }}</p>
         <router-link :to="'/project/' + project.Title">查看详情</router-link>
@@ -33,6 +33,11 @@ export default {
     axios.post('/query/projectitems', qParams)
     .then(resp => {this.resp = resp})
     .catch(error => {console.log('ProjectItemView Post Error')})
+  },
+  methods: {
+    viewDetail() {
+      this.$router.push('/project/' + project.Title)
+    }
   }
 }
 </script>
