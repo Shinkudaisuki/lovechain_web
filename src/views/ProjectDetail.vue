@@ -1,38 +1,97 @@
 <template>
   <div>
-    <el-card>
-      <h2>项目详情</h2>
-      <p>项目编号: {{ resp.data.ProjectID }}</p>
-      <p>标题: {{ resp.data.Title }}</p>
-      <p>描述: {{ resp.data.Description }}</p>
-      <p>目标金额: {{ resp.data.TargetAmount }}</p>
-      <p>已募集金额: {{ resp.data.RaisedAmount }}</p>
-      <p>审核状态: {{ resp.data.ApprovalStatus }}</p>
-      <p>商家名称: {{ resp.data.bus_name}}</p>
-    </el-card>
+    <el-descriptions v-if="detailResp" title="项目详情" border>
+      <el-descriptions-item label="项目编号">{{ detailResp.data.ProjectID }}</el-descriptions-item>
+      <el-descriptions-item label="标题">{{ detailResp.data.Title }}</el-descriptions-item>
+      <el-descriptions-item label="描述">{{ detailResp.data.Description }}</el-descriptions-item>
+      <el-descriptions-item label="目标金额">{{ detailResp.data.TargetAmount }}</el-descriptions-item>
+      <el-descriptions-item label="已募集金额">{{ detailResp.data.RaisedAmount }}</el-descriptions-item>
+      <el-descriptions-item label="审核状态">{{ detailResp.data.ApprovalStatus }}</el-descriptions-item>
+      <el-descriptions-item label="商家名称">{{ detailResp.data.bus_name}}</el-descriptions-item>
+    </el-descriptions>
+    <div id="chart"></div>
   </div>
 </template>
 
 <script>
 import axios from 'axios';
+import * as echarts from 'echarts';
 
 export default {
   name: 'ProjectDetail',
   data() {
     return {
-      resp: undefined
+      detailResp: undefined,
+      chartData: undefined,
+      myChart: undefined,
     }
   },
   mounted() {
-    const ProjectTitle = this.$route.params.Title;
+    const projectTitle = this.$route.params.Title;
     // 使用POST请求从后端获取特定项目的详细信息
-    axios.post('/query/projectdetails',{ ProjectTitle: ProjectTitle })
-      .then(resp => {
-        this.resp = resp; 
-      })
-      .catch(error => {
-        console.error('获取项目详情失败', error);
-      })
+    this.getDetails(projectTitle)
+    this.getChartData(projectTitle)
+  },
+  watch: {
+    chartData(newVal, oldVal) {
+      if (this.myChart === undefined) {
+        console.log('point')
+        var chartDom = document.getElementById('chart')
+        this.myChart = echarts.init(chartDom)
+      }
+      var option = {
+        title: {text: '示例图表'},
+        tooltip: {},
+        legend: {
+          type: 'plain',
+          show: true
+        },
+        series: [
+          {
+            type: 'graph',
+            layout: 'force',
+            animation: false,
+            label: {
+              position: 'left',
+              formatter: '{b}'
+            },
+            draggable: true,
+            data: newVal.nodes.map((node, idx) => {node.id=idx;return node;}),
+            categories: newVal.categories,
+            force: {
+              edgeLength: 20,
+              repulsion: 20,
+              gravity: 0.1
+            },
+            edges: newVal.links
+          }
+        ]
+      }
+      this.myChart.setOption(option)
+    }
+  },
+  methods: {
+    async getDetails(projectTitle) {
+      await axios.post('/query/projectdetails',{ ProjectTitle: projectTitle })
+        .then(resp => {this.detailResp = resp})
+        .catch(error => console.log('获取项目详情失败'))
+    },
+    getChartData(projectTitle) {
+      axios.post('/query/chart',{ ProjectTitle: projectTitle })
+        .then(resp => {this.chartData = resp.data})
+        .catch(error => console.log('获取项目图表数据失败'))
+    }
   }
 }
 </script>
+
+<style>
+.el-card {
+  height: 30vh;
+}
+
+#chart {
+  width: 100vw;
+  height: 70vh;
+}
+</style>

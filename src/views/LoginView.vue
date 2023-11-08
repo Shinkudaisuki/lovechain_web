@@ -50,7 +50,7 @@ export default {
   mounted() {
     axios.post('/administrator/login/verify')
     .then(resp => {this.verify = resp.data.verify;})
-    .catch(error => (alert("Mounted Post Error")))
+    .catch(error => (console.log("Mounted Post Error")))
     // console.log(this.verify)
     console.log(this.$store.state.screenWidth)
     console.log(this.$store.getters.screenType)
@@ -92,7 +92,7 @@ export default {
         .then(resp => {this.is_verify = resp.data.is_verify;
                       console.log(resp);
                       this.loginResp = resp})
-        .catch(error => (alert("Login Post Error")))
+        .catch(error => (console.log("Login Post Error")))
       }
       if(this.is_verify)
       {
@@ -109,10 +109,10 @@ export default {
         axios.defaults.headers.common['Authorization'] = 'Bearer ' + this.loginResp.data.token
       }
       else if (this.loginResp) {
-      alert('错误码(' + this.loginResp.data.error_code + '):' + this.loginResp.data.error_msg)
+      console.log('错误码(' + this.loginResp.data.error_code + '):' + this.loginResp.data.error_msg)
       }
       // delete the else chunk when deployed
-      else {
+      else if (process.env.NODE_ENV == 'development') {
         console.log('debug login')
         axios.interceptors.request.use(
           config => {
@@ -126,40 +126,6 @@ export default {
         const children = 'ProjectItemView'
         this.$router.push({ name: 'home' })
       }
-    //   await axios.post('/administrator/login', loginData)
-    //   .then(resp => {this.is_verify = resp.data.is_verify;
-    //                 console.log(resp);
-    //                 this.loginResp = resp})
-    //   .catch(error => (alert("Login Post Error")))
-    //   console.log(this.is_verify)
-    //   if(this.is_verify)
-    //   {
-    //     switch (this.picked) {
-    //     case 'User':
-    //       console.log("User login");
-    //       this.login()
-    //       this.$router.push({name: 'home'})
-    //       break;
-    //     case 'Businessman':
-    //       console.log("Businessman login");
-    //       this.login()
-    //       this.$router.push({name: 'home'})
-    //       break;
-    //     case 'Admin':
-    //       console.log("Admin login");
-    //       this.login()
-    //       this.$router.push({name: 'home'})
-    //       break;
-    //     default:
-    //       console.error("What???");
-    //       break;
-    //     }
-    //   }
-    //   else if (this.loginResp) {
-    //     alert('错误码(' + this.loginResp.data.error_code + '):' + this.loginResp.data.error_msg)
-    //   }
-
-    // }
     },
     async _register()
     {

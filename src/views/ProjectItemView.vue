@@ -1,8 +1,7 @@
 ﻿<template>
-  <div>
-    <h1>项目列表</h1>
+  <div class="margain5">
     <el-space wrap v-if="resp">
-      <el-card v-for="project in resp.data" :key="project.ProjectID" class="project-card" @click="viewDetail">
+      <el-card v-for="project in resp.data.projects" :key="project.ProjectID" class="project-card" @click="viewDetail(project.Title)">
         <p>项目编号: {{ project.ProjectID }}</p>
         <p>标题: {{ project.Title }}</p>
         <router-link :to="'/project/' + project.Title">查看详情</router-link>
@@ -35,9 +34,9 @@ export default {
     .catch(error => {console.log('ProjectItemView Post Error')})
   },
   methods: {
-    viewDetail() {
+    viewDetail(destination) {
       console.log("enter viewDetail")
-      this.$router.push('/project/' + project.Title)
+      this.$router.push('/project/' + destination).catch(error => {console.log(error)})
     }
   }
 }

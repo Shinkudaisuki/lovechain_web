@@ -4,14 +4,15 @@
       <el-header>这里是顶部</el-header>
       <el-container>
         <el-aside width="200px">
-          <el-button size="large" type="primary" class="block-link" @click="$router.push({name: 'home'})">
-            <!-- <router-link to="/home/ProjectItemView">跳转到另一个组件</router-link> -->
-            跳转到第一个组件
-          </el-button>
-          <el-button size="large" type="primary" class="block-link" @click="$router.push({path: '/home/test'})">
-            <!-- <router-link to="/home/test" class="link-text">跳转到另二个组件</router-link> -->
-            跳转到第二个组件
-          </el-button>
+          <el-scrollbar>
+            <el-menu>
+              <el-menu-item index="0" @click="() => {$router.push('/home/ProjectItemView')}">
+                <el-icon><Files /></el-icon>
+                项目列表
+              </el-menu-item>
+              <el-menu-item v-for="i in [1,2,3,4,5,6,7,8,9,10,11,12,13]" :key="i">{{ i }}</el-menu-item>
+            </el-menu>
+          </el-scrollbar>
         </el-aside>
         <el-main>
           <router-view/>
@@ -38,46 +39,12 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
+
 .app {
   display: flex;
   height: 100vh; /* 使整个页面占满可视窗口的高度 */
 }
-
-.sidebar {
-  width: 200px;
-  background-color: #f0f0f0;
-  padding: 20px;
-}
-
-.block-link {
-  margin: 10px;
-  text-decoration: none;
-}
-
-/* .block-link {
-  display: block;
-  margin: 10px;
-  margin-bottom: 10px;
-  text-decoration: none;
-  color: #333;
-  padding: 10px;
-  border-radius: 5px;
-  background-color: var(--el-color-primary);
-  transition: background-color 0.3s;
-} */
-
-/* .block-link:hover {
-  background-color: #aaa;
-} */
-
-.full-screen {
-  flex: 1; /* 充满剩余空间 */
-  overflow: auto; /* 添加滚动条，如果内容过多 */
-}
-</style>
-
-<style scoped>
 .layout-container-demo .el-header {
   position: relative;
   background-color: var(--el-color-primary-light-7);
@@ -89,10 +56,10 @@ export default {
   margin: 0%;
 }
 .layout-container-demo .el-menu {
-  border-right: none;
+  background-color: #f7fbff
 }
 .layout-container-demo .el-main {
-  padding: 0;
+  padding: 10;
 }
 .layout-container-demo .toolbar {
   display: inline-flex;
