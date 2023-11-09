@@ -1,6 +1,6 @@
 ﻿<template>
   <div>
-    <h1>登录({{ screenType }})</h1>
+    <h1>登录</h1>
     <form @submit.prevent="_login" class="login-form">
       <div class="form-group">
         <label for="username">用户名：</label>
@@ -51,9 +51,6 @@ export default {
     axios.post('/administrator/login/verify')
     .then(resp => {this.verify = resp.data.verify;})
     .catch(error => (console.log("Mounted Post Error")))
-    // console.log(this.verify)
-    console.log(this.$store.state.screenWidth)
-    console.log(this.$store.getters.screenType)
   },
   computed: {
     ...mapState(['screenWidth']),
@@ -84,13 +81,12 @@ export default {
           break;
 
         default:
-          console.error("What???");
+          console.error("Invalid role");
           break;
       }
       if (loginUrl) {
         await axios.post(loginUrl, loginData)
         .then(resp => {this.is_verify = resp.data.is_verify;
-                      console.log(resp);
                       this.loginResp = resp})
         .catch(error => (console.log("Login Post Error")))
       }

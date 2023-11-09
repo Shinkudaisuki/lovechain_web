@@ -9,8 +9,6 @@ import axios from 'axios';
 export default {
   name: 'App',
   created() {
-    //console.log('App created')
-    //console.log(this.$store.state)
     if (this.$store.state.token) {
       axios.interceptors.request.use(
         config => {
@@ -32,7 +30,6 @@ export default {
     ...mapMutations(['setScreenWidth']),
     onResize() {
       this.setScreenWidth(window.innerWidth)
-      //console.log(this.screenWidth)
     },
   }
 }

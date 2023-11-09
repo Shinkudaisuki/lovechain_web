@@ -1,16 +1,22 @@
 <template>
-  <div>
-    <el-descriptions v-if="detailResp" title="项目详情" border>
-      <el-descriptions-item label="项目编号">{{ detailResp.data.ProjectID }}</el-descriptions-item>
-      <el-descriptions-item label="标题">{{ detailResp.data.Title }}</el-descriptions-item>
-      <el-descriptions-item label="描述">{{ detailResp.data.Description }}</el-descriptions-item>
-      <el-descriptions-item label="目标金额">{{ detailResp.data.TargetAmount }}</el-descriptions-item>
-      <el-descriptions-item label="已募集金额">{{ detailResp.data.RaisedAmount }}</el-descriptions-item>
-      <el-descriptions-item label="审核状态">{{ detailResp.data.ApprovalStatus }}</el-descriptions-item>
-      <el-descriptions-item label="商家名称">{{ detailResp.data.bus_name}}</el-descriptions-item>
-    </el-descriptions>
-    <div id="chart"></div>
-  </div>
+  <el-container>
+    <el-header>
+      <el-page-header @back="goback">
+      </el-page-header>
+    </el-header>
+    <el-main>
+      <el-descriptions v-if="detailResp" title="项目详情" border>
+        <el-descriptions-item label="项目编号">{{ detailResp.data.ProjectID }}</el-descriptions-item>
+        <el-descriptions-item label="标题">{{ detailResp.data.Title }}</el-descriptions-item>
+        <el-descriptions-item label="描述">{{ detailResp.data.Description }}</el-descriptions-item>
+        <el-descriptions-item label="目标金额">{{ detailResp.data.TargetAmount }}</el-descriptions-item>
+        <el-descriptions-item label="已募集金额">{{ detailResp.data.RaisedAmount }}</el-descriptions-item>
+        <el-descriptions-item label="审核状态">{{ detailResp.data.ApprovalStatus }}</el-descriptions-item>
+        <el-descriptions-item label="商家名称">{{ detailResp.data.bus_name}}</el-descriptions-item>
+      </el-descriptions>
+      <div id="chart"></div>
+    </el-main>
+  </el-container>
 </template>
 
 <script>
@@ -80,18 +86,29 @@ export default {
       axios.post('/query/chart',{ ProjectTitle: projectTitle })
         .then(resp => {this.chartData = resp.data})
         .catch(error => console.log('获取项目图表数据失败'))
+    },
+    goback() {
+      this.$router.back()
     }
   }
 }
 </script>
 
-<style>
+<style scoped>
+.el-container {
+  width: 100%;
+  height: 100%;
+}
+.el-main {
+  padding: 0px;
+}
+
 .el-card {
-  height: 30vh;
+  height: 30%;
 }
 
 #chart {
-  width: 100vw;
+  width: 90vw;
   height: 70vh;
 }
 </style>

@@ -2,7 +2,7 @@
 
 Mock.setup({timeout: '200-600'})
 
-Mock.mock('/query/projectitems', 'post', {'projects|3': [{
+Mock.mock('/query/projectitems', 'post', {'projects|5': [{
   'ProjectID|+1': 1,
   'Title': '@CTITLE()'}]})
 

@@ -1,10 +1,9 @@
 ﻿<template>
-  <div class="margain5">
-    <el-space wrap v-if="resp">
-      <el-card v-for="project in resp.data.projects" :key="project.ProjectID" class="project-card" @click="viewDetail(project.Title)">
+  <div class="main">
+    <el-space wrap fill fill-ratio="20" v-if="resp">
+      <el-card v-for="project in resp.data.projects" :key="project.ProjectID" shadow="hover" class="project-card" @click="viewDetail(project.Title)">
         <p>项目编号: {{ project.ProjectID }}</p>
         <p>标题: {{ project.Title }}</p>
-        <router-link :to="'/project/' + project.Title">查看详情</router-link>
       </el-card>
     </el-space>
   </div>
@@ -42,8 +41,11 @@ export default {
 }
 </script>
 
-<style>
-.project-table {
+<style scoped>
+.main {
   width: 100%
+}
+.el-space {
+  width: 100% 
 }
 </style>
