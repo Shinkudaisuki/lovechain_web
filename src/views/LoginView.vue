@@ -1,30 +1,36 @@
 ﻿<template>
   <div>
     <h1>登录</h1>
-    <form @submit.prevent="_login" class="login-form">
+    <form :disabled="disableForm" @submit.prevent="_login" class="login-form">
       <div class="form-group">
         <label for="username">用户名：</label>
-        <input id="username" type="text" v-model="username" placeholder="请输入用户名" required>
+        <input :disabled="disableForm" id="username" type="text" v-model="username" placeholder="请输入用户名" required>
       </div>
       <div class="form-group">
         <label for="password">密码：</label>
-        <input id="password" type="password" v-model="password" placeholder="请输入密码" required>
+        <input :disabled="disableForm" id="password" type="password" v-model="password" placeholder="请输入密码" required>
       </div>
       <br/>
       <div class="radio-group">
-        <input type="radio" id="user" value="User" v-model="picked">
+        <input :disabled="disableForm" type="radio" id="user" value="User" v-model="picked">
         <label for="user">用户</label>
       
-        <input type="radio" id="admin" value="Admin" v-model="picked">
+        <input :disabled="disableForm" type="radio" id="admin" value="Admin" v-model="picked">
         <label for="admin">管理员</label>
 
-        <input type="radio" id="businessman" value="Businessman" v-model="picked">  
+        <input :disabled="disableForm" type="radio" id="businessman" value="Businessman" v-model="picked">  
         <label for="businessman">商家</label>
       </div>
       <br/>
-      <button type="submit" class="login-button">登录</button>
-      <button @click="_register" class="login-button">注册</button>
+      <button :disabled="disableForm" type="submit" class="login-button">登录</button>
+      <button :disabled="disableForm" @click="_register" class="login-button">注册</button>
     </form>
+    <div v-if="showErrorAlert" class="error-alert">
+    <div class="error-alert-content">
+      <p>用户名或密码错误</p>
+      <button @click="closeErrorAlert">OK</button>
+    </div>
+  </div>
   </div>
 </template>
 
@@ -44,6 +50,8 @@ export default {
         is_verify: 0,
         loginResp: undefined,
         picked:'User',
+        showErrorAlert: false,
+        disableForm:false,
     }
   },
 
@@ -57,6 +65,14 @@ export default {
     ...mapGetters(['screenType'])
   },
   methods: {
+    showPasswordErrorAlert() {
+      this.showErrorAlert = true;
+      this.disableForm = true;
+    },    
+    closeErrorAlert() {
+      this.showErrorAlert = false;
+      this.disableForm = false;
+    },
     ...mapMutations(['login']),
     async _login() {
       
@@ -105,6 +121,7 @@ export default {
         axios.defaults.headers.common['Authorization'] = 'Bearer ' + this.loginResp.data.token
       }
       else if (this.loginResp) {
+      this.showPasswordErrorAlert();
       console.log('错误码(' + this.loginResp.data.error_code + '):' + this.loginResp.data.error_msg)
       }
       // delete the else chunk when deployed
@@ -214,5 +231,30 @@ input[type="password"] {
 .login-button:hover {
   background-color: #0056b3;
 }
+/*错误信息*/ 
+.error-alert {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: #fff;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  padding: 20px;
+  text-align: center;
+}
 
+.error-alert-content button {
+  padding: 8px 16px;
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.error-alert-content button:hover {
+  background-color: #0056b3;
+}
 </style>
