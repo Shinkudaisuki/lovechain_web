@@ -61,7 +61,7 @@
     methods: {
       addProject() {
         // 向后端发送添加请求的逻辑
-        axios.post('/query/detailchanges', this.formData)
+        axios.post('/query/projectchanges', this.formData)
           .then(resp => {
             // 提示添加成功，并返回主页
             this.$message.success('添加成功！');

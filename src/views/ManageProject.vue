@@ -60,6 +60,16 @@
     },
     deleteProject(projectID) {
       // 向后端发送删除请求的逻辑
+      axios.post('/query/projectchanges', projectID)
+          .then(resp => {
+            // 提示添加成功，并返回主页
+            this.$message.success('添加成功！');
+            this.$router.push('/home');
+          })
+          .catch(error => {
+            // 提示添加失败或其他错误信息
+            this.$message.error('添加失败，请重试！');
+          });
       // ...
       // 提示删除成功，并返回主页
       this.$message.success('删除成功！');
