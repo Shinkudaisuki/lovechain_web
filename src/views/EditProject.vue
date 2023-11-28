@@ -50,7 +50,7 @@
     },
     methods: {
       async getOriginalData(projectTitle) {
-        await axios.post('/query/projectdetails', { ProjectTitle: projectTitle })
+        await axios.post('/query/projectitems', { ProjectTitle: projectTitle })
           .then(resp => {
             this.originalData = resp.data; // 保存原始数据
             this.editedData = { ...resp.data }; // 复制数据以便编辑
@@ -79,8 +79,9 @@
       },
       sendEditedData() {
         // 发送编辑后的数据到后端的逻辑
+        this.editedData.operationType = 'edit';
         // 使用 axios 或其他方法发送请求
-        axios.post('/update/project', this.editedData)
+        axios.post('/query/projectchanges', this.editedData)
           .then(resp => {
             // 成功发送数据到后端，提示用户并返回主页
             this.$message.success('修改成功！');

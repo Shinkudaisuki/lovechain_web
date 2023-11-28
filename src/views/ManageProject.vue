@@ -60,7 +60,7 @@
     },
     deleteProject(projectID) {
       // 向后端发送删除请求的逻辑
-      axios.post('/query/projectchanges', projectID)
+      axios.post('/query/projectchanges', { operationType: 'delete', projectID })
           .then(resp => {
             // 提示添加成功，并返回主页
             this.$message.success('添加成功！');
