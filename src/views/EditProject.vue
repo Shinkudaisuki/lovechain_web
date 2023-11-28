@@ -45,12 +45,12 @@
     },
     mounted() {
       // 获取需要编辑的项目原始信息，填充表单
-      const projectTitle = this.$route.params.Title;
-      this.getOriginalData(projectTitle);
+      const ProjectID = this.$route.params.ProjectID;
+      this.getOriginalData(ProjectID);
     },
     methods: {
       async getOriginalData(projectTitle) {
-        await axios.post('/query/projectitems', { ProjectTitle: projectTitle })
+        await axios.post('/query/projectitems', { ProjectID: ProjectID })
           .then(resp => {
             this.originalData = resp.data; // 保存原始数据
             this.editedData = { ...resp.data }; // 复制数据以便编辑

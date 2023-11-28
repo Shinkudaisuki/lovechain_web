@@ -64,7 +64,7 @@
           .then(resp => {
             // 提示添加成功，并返回主页
             this.$message.success('添加成功！');
-            this.$router.push('/home');
+            this.$router.push('/home/ManageProject');
           })
           .catch(error => {
             // 提示添加失败或其他错误信息
