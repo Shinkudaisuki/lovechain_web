@@ -7,6 +7,9 @@ import ProjectItemView from '../views/ProjectItemView.vue'
 import AboutView from '../views/AboutView.vue'
 import test from '../views/test.vue'
 import ProjectDetail from '../views/ProjectDetail.vue'
+import ManageProject from '../views/ManageProject.vue'
+import EditProject from '../views/EditProject.vue'
+import AddProject from '../views/AddProject.vue'
 
 const routes = [
   {
@@ -33,8 +36,12 @@ const routes = [
         component: ProjectItemView
       },
       {
-        path:'test',
-        component:test
+        path:'ManageProject',
+        component:ManageProject
+      },
+      {
+        path:'AddProject',
+        component:AddProject
       }
     ]
   },
@@ -50,7 +57,12 @@ const routes = [
      path: '/project/:Title',
      name:'projectdetails',
      component: ProjectDetail
-  }
+  },
+  {
+    path: '/project/:ProjectID',
+    name:'EditProject',
+    component: EditProject
+ }
 ]
 
 const router = createRouter({

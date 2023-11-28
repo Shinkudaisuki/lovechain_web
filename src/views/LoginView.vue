@@ -127,6 +127,7 @@ export default {
       // delete the else chunk when deployed
       else if (process.env.NODE_ENV == 'development') {
         console.log('debug login')
+        console.log({role: this.picked, token: this.token})
         axios.interceptors.request.use(
           config => {
             config.headers['Authorization'] = 'Bearer debug';
