@@ -79,9 +79,17 @@
       },
       sendEditedData() {
         // 发送编辑后的数据到后端的逻辑
-        this.editedData.operationType = 'edit';
+        const projectId = this.originalData.projectId;
+          // 将项目 ID 和编辑后的数据合并到一个对象中
+        const requestData = {
+        projectId,
+        editedData: {
+          ...this.editedData, // 将编辑后的数据展开到新对象中
+          operationType: 'edit' // 添加操作类型字段
+        }
+        };
         // 使用 axios 或其他方法发送请求
-        axios.post('/query/projectchanges', this.editedData)
+        axios.post('/query/projectchanges', requestData)
           .then(resp => {
             // 成功发送数据到后端，提示用户并返回主页
             this.$message.success('修改成功！');
