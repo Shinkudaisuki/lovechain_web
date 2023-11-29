@@ -54,13 +54,13 @@
         console.log("enter viewDetail")
         this.$router.push('/project/' + destination).catch(error => {console.log(error)})
       },
-      showConfirmation(projectID) {
+      showConfirmation(ProjectID) {
       this.showConfirm = true;
-      this.currentProjectID = projectID;
+      this.currentProjectID = ProjectID;
     },
-    deleteProject(projectID) {
+    deleteProject(ProjectID) {
       // 向后端发送删除请求的逻辑
-      axios.post('/query/projectchanges', { operationType: 'delete', projectID })
+      axios.post('/query/projectchanges', { operationType: 'delete', ProjectID })
           .then(resp => {
             // 提示添加成功，并返回主页
             // ...
