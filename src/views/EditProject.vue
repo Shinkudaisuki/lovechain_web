@@ -49,11 +49,11 @@
       this.getOriginalData(ProjectID);
     },
     methods: {
-      async getOriginalData(projectTitle) {
+      async getOriginalData(ProjectID) {
         await axios.post('/query/projectitems', { ProjectID: ProjectID })
           .then(resp => {
             this.originalData = resp.data; // 保存原始数据
-            this.editedData = { ...resp.data }; // 复制数据以便编辑
+            this.editedData = resp.data ; // 复制数据以便编辑
           })
           .catch(error => console.log('获取项目信息失败'));
       },
