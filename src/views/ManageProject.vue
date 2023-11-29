@@ -63,19 +63,17 @@
       axios.post('/query/projectchanges', { operationType: 'delete', projectID })
           .then(resp => {
             // 提示添加成功，并返回主页
-            this.$message.success('添加成功！');
-            this.$router.push('/home/ManageProject');
+            // ...
+          // 提示删除成功，并返回主页
+          // 返回主页的操作，例如使用Vue Router进行页面跳转
+          this.$router.push('/home/ManageProject');
+            this.$message.success('删除成功！');
           })
           .catch(error => {
             // 提示添加失败或其他错误信息
-            this.$message.error('添加失败，请重试！');
+            this.$message.error('删除失败，请重试！');
           });
-      // ...
-      // 提示删除成功，并返回主页
-      this.$message.success('删除成功！');
-      // 返回主页的操作，例如使用Vue Router进行页面跳转
-      this.$router.push('/home/AddProject');
-      // 隐藏确认对话框
+          // 隐藏确认对话框
       this.showConfirm = false;
     },
     cancelDelete() {
