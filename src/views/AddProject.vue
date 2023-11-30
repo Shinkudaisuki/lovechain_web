@@ -1,9 +1,6 @@
 <template>
     <div class="main">
       <el-form :model="formData" label-width="120px">
-        <el-form-item label="项目编号">
-          <el-input v-model="formData.ProjectID"></el-input>
-        </el-form-item>
         <el-form-item label="标题">
           <el-input v-model="formData.Title"></el-input>
         </el-form-item>
@@ -47,7 +44,6 @@
     data() {
       return {
         formData: {
-          ProjectID: '',
           Title: '',
           Description: '',
           TargetAmount: '',
@@ -66,7 +62,7 @@
           .then(resp => {
             // 提示添加成功，并返回主页
             this.$message.success('添加成功！');
-            this.$router.push('/home/AddProject');
+            window.location.reload();
           })
           .catch(error => {
             // 提示添加失败或其他错误信息
@@ -81,7 +77,6 @@
       confirmAdd() {
       // Check if all fields are filled
       if (
-        !this.formData.ProjectID ||
         !this.formData.Title ||
         !this.formData.Description ||
         !this.formData.TargetAmount ||

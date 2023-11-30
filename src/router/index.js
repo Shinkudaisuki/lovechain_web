@@ -59,7 +59,7 @@ const routes = [
      component: ProjectDetail
   },
   {
-    path: '/project/edit/:ProjectID',
+    path: '/project/edit/:Title',
     name:'EditProject',
     component: EditProject
  }

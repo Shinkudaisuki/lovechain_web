@@ -2,14 +2,10 @@
     <el-container>
       <el-header>
         <el-page-header @back="goback">
-          <el-button type="primary" @click="confirmEdit">修改</el-button>
         </el-page-header>
       </el-header>
-      <el-main>
-        <el-form ref="form" :model="editedData" label-width="120px">
-          <el-form-item label="项目编号">
-            <el-input v-model="editedData.ProjectID"></el-input>
-          </el-form-item>
+      <el-main >
+        <el-form ref="form" :model="editedData" label-width="120px" class="centered">
           <el-form-item label="标题">
             <el-input v-model="editedData.Title"></el-input>
           </el-form-item>
@@ -28,6 +24,7 @@
           <el-form-item label="商家名称">
             <el-input v-model="editedData.bus_name"></el-input>
           </el-form-item>
+          <el-button  type="primary" @click="confirmEdit">修改</el-button>
         </el-form>
       </el-main>
     </el-container>
@@ -45,15 +42,15 @@
     },
     mounted() {
       // 获取需要编辑的项目原始信息，填充表单
-      const projectID = this.$route.params.ProjectID;
-      this.getOriginalData(projectID);
+      const Title = this.$route.params.Title;
+      this.getOriginalData(Title);
     },
     methods: {
-      async getOriginalData(projectID) {
-        await axios.post('/query/projectitems', { ProjectID: projectID })
+      async getOriginalData(Title) {
+        await axios.post('/query/projectdetails', { ProjectTitle: Title })
           .then(resp => {
             this.originalData = resp.data; // 保存原始数据
-            this.editedData = resp.data ; // 复制数据以便编辑
+            this.editedData = {...resp.data} ; // 复制数据以便编辑
           })
           .catch(error => console.log('获取项目信息失败'));
       },
@@ -80,20 +77,13 @@
       sendEditedData() {
         // 发送编辑后的数据到后端的逻辑
         const projectId = this.originalData.projectId;
-          // 将项目 ID 和编辑后的数据合并到一个对象中
-        const requestData = {
-        projectId,
-        editedData: {
-          ...this.editedData, // 将编辑后的数据展开到新对象中
-          operationType: 'edit' // 添加操作类型字段
-        }
-        };
+        this.editedData.operationType = 'edit';
         // 使用 axios 或其他方法发送请求
-        axios.post('/query/projectchanges', requestData)
+        axios.post('/query/projectchanges', this.editedData)
           .then(resp => {
             // 成功发送数据到后端，提示用户并返回主页
             this.$message.success('修改成功！');
-            this.$router.push('/home');
+            this.$router.push('/home/ManageProject');
           })
           .catch(error => {
             // 发送数据到后端失败，提示用户或进行其他操作
@@ -133,5 +123,9 @@
     /* 表单项样式 */
     .el-form-item {
     margin-bottom: 20px;
+    }
+
+    .centered {
+      text-align: center;
     }
   </style>

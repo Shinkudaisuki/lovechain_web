@@ -7,7 +7,7 @@
         <el-table-column prop="Title" label="标题"></el-table-column>
         <el-table-column label="操作">
           <template v-slot="scope">
-            <el-button type="primary" @click="editProject(scope.row.ProjectID)">修改</el-button>
+            <el-button type="primary" @click="editProject(scope.row.Title)">修改</el-button>
             <el-button type="danger" @click="showConfirmation(scope.row.ProjectID)">删除</el-button>
             <el-button type="info" @click="viewProject(scope.row.Title)">查看</el-button>
           </template>
@@ -44,7 +44,7 @@
       console.log('ProjectItemView mounted')
       var qParams = {token: this.$store.state.token,
                     role: this.$store.state.role,
-                    range: [0, 10]}
+                    range: [0, 20]}
       axios.post('/query/projectitems', qParams)
       .then(resp => {this.resp = resp; console.log(resp)})
       .catch(error => {console.log('ProjectItemView Post Error')})
@@ -62,12 +62,9 @@
       // 向后端发送删除请求的逻辑
       axios.post('/query/projectchanges', { operationType: 'delete', ProjectID })
           .then(resp => {
-            // 提示添加成功，并返回主页
-            // ...
-          // 提示删除成功，并返回主页
+          this.$router.go(); // 这将重新加载当前路由对应的组件
           // 返回主页的操作，例如使用Vue Router进行页面跳转
           this.$router.push('/home/ManageProject');
-            this.$message.success('删除成功！');
           })
           .catch(error => {
             // 提示添加失败或其他错误信息
@@ -81,9 +78,9 @@
       // 隐藏确认对话框
       this.showConfirm = false;
     },
-    editProject(ProjectID){
+    editProject(Title){
         console.log("enter viewDetail")
-        this.$router.push('/project/edit/' + ProjectID).catch(error => {console.log(error)})
+        this.$router.push('/project/edit/' + Title).catch(error => {console.log(error)})
       
     },
     viewProject(Title) {
