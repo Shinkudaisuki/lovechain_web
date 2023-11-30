@@ -83,7 +83,7 @@
     },
     editProject(ProjectID){
         console.log("enter viewDetail")
-        this.$router.push('/project/' + ProjectID).catch(error => {console.log(error)})
+        this.$router.push('/project/edit/' + ProjectID).catch(error => {console.log(error)})
       
     },
     viewProject(Title) {
