@@ -17,7 +17,12 @@
                 <el-icon><Files /></el-icon>
                 项目列表
               </el-menu-item>
-              <el-menu-item v-for="i in [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15]" :key="i">{{ i }}</el-menu-item>
+              <el-menu-item index="1" v-if="isAdmin" @click="() => {$router.push('/home/ManageProject')}">
+                项目管理
+              </el-menu-item>
+              <el-menu-item index="2" v-if="isAdmin" @click="() => {$router.push('/home/AddProject')}">
+                添加项目
+              </el-menu-item>
             </el-menu>
           </el-scrollbar>
         </el-aside>
@@ -30,6 +35,7 @@
 </template>
 
 <script>
+import { mapState } from 'vuex';
 
 export default {
   name: "LayoutView",
@@ -38,7 +44,14 @@ export default {
 
     }
   },
-
+  computed: {
+    isAdmin() {
+      console.log(this.role)
+      console.log(this.role == 'Admin')
+      return this.role == 'Admin'
+    },
+    ...mapState(['role']),
+  },
   methods: {
     
   }
