@@ -1,7 +1,14 @@
 <template>
   <div class="app">
     <el-container class="layout-container-outer">
-      <el-header>这里是顶部</el-header>
+      <el-header height="40px">
+        <el-row>
+          <el-col span="4">
+            <el-icon><House /></el-icon>
+            回到主页
+          </el-col>
+        </el-row>
+      </el-header>
       <el-container class="layout-container-main">
         <el-aside width="200px">
           <el-scrollbar>
@@ -48,7 +55,6 @@ export default {
   width: calc(100vw - 200px);
 }
 .layout-container-outer .el-header {
-  position: relative;
   background-color: var(--el-color-primary-light-7);
   color: var(--el-text-color-primary);
 }
