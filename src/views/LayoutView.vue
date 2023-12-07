@@ -3,7 +3,7 @@
     <el-container class="layout-container-outer">
       <el-header height="40px">
         <el-row>
-          <el-col span="4">
+          <el-col :span="4">
             <el-icon><House /></el-icon>
             回到主页
           </el-col>
