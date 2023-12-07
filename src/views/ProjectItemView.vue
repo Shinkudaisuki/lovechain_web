@@ -3,7 +3,7 @@
     <el-space wrap fill fill-ratio="20" v-if="resp">
       <el-card v-for="project in resp.data.projects" :key="project.ProjectID" shadow="hover" class="project-card" @click="viewDetail(project.Title)">
         <p>项目编号: {{ project.ProjectID }}</p>
-        <p>标题: {{ project.Title }}</p>
+        <p class="title">标题: {{ project.Title }}</p>
       </el-card>
     </el-space>
   </div>
@@ -47,5 +47,12 @@ export default {
 }
 .el-space {
   width: 100% 
+}
+.project-card .title {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  /* 添加以下样式来限制标题的最大宽度 */
+  max-width: 200px; /* 根据需要调整最大宽度 */
 }
 </style>
