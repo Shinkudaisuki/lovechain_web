@@ -89,4 +89,11 @@ export default {
 .el-space {
   width: 100% 
 }
+.project-card .title {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  /* 添加以下样式来限制标题的最大宽度 */
+  max-width: 200px; /* 根据需要调整最大宽度 */
+}
 </style>
