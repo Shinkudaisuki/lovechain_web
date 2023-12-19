@@ -122,14 +122,14 @@ export default {
       
     },
     getVerify() {
-      axios.post(`/${this.selected}/register/verify`)
-      .then(resp => {this.verify = resp.data.verify;})
-      .catch(error => (alert("getVerify Post Error")))
+      if (this.selected != "") {
+        axios.post(`/${this.selected}/register/verify`)
+        .then(resp => {this.verify = resp.data.verify;})
+        .catch(error => (alert("getVerify Post Error")))
+      }
+
     }
   },
-  watch: {
-
-  } 
 }
 
 </script>
