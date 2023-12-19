@@ -2,6 +2,9 @@
   <el-container>
     <el-header>
       <el-page-header @back="goback">
+        <template #extra>
+          <el-button type="primary" @click="donate">捐赠</el-button>
+        </template>
       </el-page-header>
     </el-header>
     <el-main>
@@ -17,6 +20,7 @@
       <div id="chart"></div>
     </el-main>
   </el-container>
+
 </template>
 
 <script>
@@ -41,7 +45,6 @@ export default {
   watch: {
     chartData(newVal, oldVal) {
       if (this.myChart === undefined) {
-        console.log('point')
         var chartDom = document.getElementById('chart')
         this.myChart = echarts.init(chartDom)
       }
@@ -86,6 +89,28 @@ export default {
       axios.post('/query/chart',{ ProjectTitle: projectTitle })
         .then(resp => {this.chartData = resp.data})
         .catch(error => console.log('获取项目图表数据失败'))
+    },
+    donate() {
+      this.$prompt('请输入捐赠金额', {
+        title: '项目捐献',
+        cancelButtonText: '取消',
+        confirmButtonText: '捐赠',
+        inputPattern: /^[1-9]\d*$/,
+        inputErrorMessage: '请输入正确的金额'
+      }).then(({ value }) => {
+        console.log('point');
+        axios.post('/query/donate', {
+          ProjectID: this.detailResp.data.ProjectID,
+          count: value}).then(resp => {
+            const projectTitle = this.$route.params.Title;
+            this.getDetails(projectTitle);
+            this.getChartData(projectTitle);
+          }).catch(error => {
+            console.log('donate post error')
+          })
+      }).catch(() => {
+        console.log('donate canceled')
+      })
     },
     goback() {
       this.$router.back()
