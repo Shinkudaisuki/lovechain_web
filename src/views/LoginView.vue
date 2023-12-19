@@ -85,7 +85,7 @@ export default {
       var loginUrl = ''
       switch(this.picked){
         case 'User':
-          loginUrl = '/home'
+          loginUrl = '/user/login'
           break;
 
         case 'Businessman':
