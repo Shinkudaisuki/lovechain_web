@@ -5,7 +5,7 @@
       <label for="username">用户名：</label>
       <input id="username" type="text" v-model="username" placeholder="请输入用户名" required>
       <br/>
-      <select v-model="selected" name="userType" required>
+      <select v-model="selected" name="userType" required @change="">
         <option value="">请选择您的身份</option>
         <option value="user">用户</option>
         <option value="admin">管理员</option>
@@ -57,8 +57,7 @@ export default {
         timerId: null,
         countDown: false,
         countDownSeconds: 0,
-        selected:'',
-        userType:'',
+        selected:''
     }
   },
   computed: {
@@ -70,10 +69,6 @@ export default {
     },
   },
   mounted() {
-    axios.post(`/${this.selected}/register/verify`)
-    .then(resp => {this.verify = resp.data.verify;})
-    .catch(error => (alert("Mounted Post Error")))
-    // console.log(this.verify)
   },
   methods: {
     ...mapMutations(['login']),
@@ -125,8 +120,16 @@ export default {
         }, 1000)
       }
       
+    },
+    getVerify() {
+      axios.post(`/${this.selected}/register/verify`)
+      .then(resp => {this.verify = resp.data.verify;})
+      .catch(error => (alert("getVerify Post Error")))
     }
-  }
+  },
+  watch: {
+
+  } 
 }
 
 </script>
