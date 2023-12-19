@@ -5,7 +5,7 @@
       <label for="username">用户名：</label>
       <input id="username" type="text" v-model="username" placeholder="请输入用户名" required>
       <br/>
-      <select v-model="selected" name="userType" required @change="">
+      <select v-model="selected" name="userType" required @change="getVerify">
         <option value="">请选择您的身份</option>
         <option value="user">用户</option>
         <option value="admin">管理员</option>
