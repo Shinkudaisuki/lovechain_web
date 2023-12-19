@@ -7,9 +7,9 @@
       <br/>
       <select v-model="selected" name="userType" required>
         <option value="">请选择您的身份</option>
-        <option value="User">用户</option>
-        <option value="Admin">管理员</option>
-        <option value="Businessman">商家</option>
+        <option value="user">用户</option>
+        <option value="admin">管理员</option>
+        <option value="merchant">商家</option>
       </select>
       <br/>
       <label for="password">密码：</label>
@@ -67,10 +67,10 @@ export default {
     },
     isPhoneNumberUsed: function () {
       return (this.smsResult == 2000)? true : false
-    }
+    },
   },
   mounted() {
-    axios.post('/administrator/register/verify')
+    axios.post(`/${this.selected}/register/verify`)
     .then(resp => {this.verify = resp.data.verify;})
     .catch(error => (alert("Mounted Post Error")))
     // console.log(this.verify)
@@ -90,8 +90,7 @@ export default {
       registerData.append('verify', this.verify);
       registerData.append('phone', this.phoneNumber);
       registerData.append('verify_code', this.phoneVerification);
-      registerData.append('userType',this.selected);
-      await axios.post('/administrator/register', registerData)
+      await axios.post(`/${this.selected}/register`, registerData)
       .then(resp => {this.is_verify = resp.data.is_verify;
         this.registerResp = resp})
       .catch(error => (alert("Login Post Error")))
@@ -109,7 +108,7 @@ export default {
     async send_sms() {
       const TIME_COUNT = 60
       if (!this.timerId) {
-        axios.post('/administrator/register/sms', {phone_num: this.phoneNumber})
+        axios.post(`/${this.selected}/register/sms`, {phone_num: this.phoneNumber})
         .then(resp => {this.smsResult = resp.data.result})
         .catch(eror => {alert("send_sms Post Error")})
         this.countDownSeconds = TIME_COUNT
