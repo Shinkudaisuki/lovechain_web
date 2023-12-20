@@ -14,8 +14,8 @@
               <td>{{ project.ProjectID }}</td>
               <td>{{ project.Title }}</td>
               <td>
-                <el-button type="primary" @click="approveProject(project.id)">同意</el-button>
-                <el-button type="danger" @click="rejectProject(project.id)">拒绝</el-button>
+                <el-button type="primary" @click="approveProject(project.ProjectID)">同意</el-button>
+                <el-button type="danger" @click="rejectProject(project.ProjectID)">拒绝</el-button>
               </td>
             </tr>
           </tbody>
@@ -47,14 +47,14 @@
         };
         axios.post('/query/waitlist', qParams)
           .then(response => {
-            this.projects = response.data;
+            this.projects = response.data.projects;
           })
           .catch(error => {
             console.error('Error fetching pending projects:', error);
           });
       },
       approveProject(projectId) {
-        const data = { projectId, status: 'OK' };
+        const data = { projectId, status: 'ok' };
         axios.post(`/query/projectapproval`, data)
           .then(() => {
             this.fetchPendingProjects();
@@ -64,7 +64,7 @@
           });
       },
       rejectProject(projectId) {
-        const data = { projectId, status: 'NO' };
+        const data = { projectId, status: 'refuse' };
         axios.post(`/query/projectapproval`, data)
           .then(() => {
             this.fetchPendingProjects();
