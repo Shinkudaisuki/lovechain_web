@@ -72,8 +72,6 @@
         !this.formData.Title ||
         !this.formData.Description ||
         !this.formData.TargetAmount ||
-        !this.formData.RaisedAmount ||
-        !this.formData.ApprovalStatus ||
         !this.formData.bus_name
       ) {
         this.$message.error('请写全信息');

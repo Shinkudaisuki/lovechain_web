@@ -1,22 +1,25 @@
 <template>
     <div>
       <div class="main" v-if="projects">
-        <el-card v-for="project in projects" :key="project.id" class="project-item">
-          <template #header>
-            <div class="project-header">
-              <p>项目编号: {{ project.id }}</p>
-              <p>项目名称: {{ project.name }}</p>
-              <!-- 这里可以展示其他项目信息 -->
-            </div>
-          </template>
-          <div class="project-info">
-            <!-- 这里可以展示更多项目信息 -->
-          </div>
-          <div class="action-buttons">
-            <el-button type="success" @click="approveProject(project.id)">同意</el-button>
-            <el-button type="danger" @click="rejectProject(project.id)">拒绝</el-button>
-          </div>
-        </el-card>
+        <table class="project-table">
+          <thead>
+            <tr>
+              <th>项目编号</th>
+              <th>项目名称</th>
+              <th>操作</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr v-for="project in projects" :key="project.id">
+              <td>{{ project.ProjectID }}</td>
+              <td>{{ project.Title }}</td>
+              <td>
+                <el-button type="primary" @click="approveProject(project.id)">同意</el-button>
+                <el-button type="danger" @click="rejectProject(project.id)">拒绝</el-button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
       </div>
       <div v-else>
         <p>加载中...</p>
@@ -30,69 +33,70 @@
   
   export default {
     name: 'ConfirmProjects',
-    setup() {
-      const projects = ref(null);
-  
-      const fetchPendingProjects = () => {
-        var qParams = {
-            token: this.$store.state.token,
-            role: this.$store.state.role,
-            range: [0, 10]
-        };
-
-        axios.get('/query/waitlist', {
-            params: qParams // 将 qParams 作为请求的参数传递给后端
-        })
-            .then(response => {
-            projects.value = response.data;
-            })
-            .catch(error => {
-            console.error('Error fetching pending projects:', error);
-            });
-        };
-
-  
-      const approveProject = (projectId) => {
-        const data = { projectId, status: 'OK' };
-        axios.post(`/query/projectapproval`, data) // 替换成你的后端接口
-            .then(() => {
-            fetchPendingProjects();
-            })
-            .catch(error => {
-            console.error('Error approving project:', error);
-            });
-        };
-
-        const rejectProject = (projectId) => {
-        const data = { projectId, status: 'NO' };
-        axios.post(`/query/projectapproval`, data) // 替换成你的后端接口
-            .then(() => {
-            fetchPendingProjects();
-            })
-            .catch(error => {
-            console.error('Error rejecting project:', error);
-            });
-        };
-
-  
+    data() {
       return {
-        projects,
-        fetchPendingProjects,
-        approveProject,
-        rejectProject
+        projects: null
       };
+    },
+    methods: {
+      fetchPendingProjects() {
+        var qParams = {
+          token: this.$store.state.token,
+          role: this.$store.state.role,
+          range: [0, 20]
+        };
+        axios.post('/query/waitlist', qParams)
+          .then(response => {
+            this.projects = response.data;
+          })
+          .catch(error => {
+            console.error('Error fetching pending projects:', error);
+          });
+      },
+      approveProject(projectId) {
+        const data = { projectId, status: 'OK' };
+        axios.post(`/query/projectapproval`, data)
+          .then(() => {
+            this.fetchPendingProjects();
+          })
+          .catch(error => {
+            console.error('Error approving project:', error);
+          });
+      },
+      rejectProject(projectId) {
+        const data = { projectId, status: 'NO' };
+        axios.post(`/query/projectapproval`, data)
+          .then(() => {
+            this.fetchPendingProjects();
+          })
+          .catch(error => {
+            console.error('Error rejecting project:', error);
+          });
+      }
+    },
+    mounted() {
+      console.log('confirmproject mounted');
+      this.fetchPendingProjects();
     }
   };
   </script>
   
   <style scoped>
-  /* 根据需要添加样式以适应 Element Plus 的组件样式和布局需求 */
-  .project-item {
-    margin-bottom: 20px;
+  /* 根据需要添加样式以适应 table 的布局需求 */
+  .project-table {
+    width: 100%;
+    border-collapse: collapse;
   }
   
-  .project-header {
-    font-weight: bold;
+  .project-table th,
+  .project-table td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: left;
+  }
+  
+  .project-table th {
+    background-color: #f2f2f2;
   }
   </style>
   
