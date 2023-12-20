@@ -20,7 +20,7 @@
               <el-menu-item index="1" v-if="isAdmin" @click="() => {$router.push('/home/ManageProject')}">
                 项目管理
               </el-menu-item>
-              <el-menu-item index="2" v-if="isAdmin" @click="() => {$router.push('/home/AddProject')}">
+              <el-menu-item index="2" v-if="isMerchant" @click="() => {$router.push('/home/AddProject')}">
                 添加项目
               </el-menu-item>
             </el-menu>
@@ -45,12 +45,13 @@ export default {
     }
   },
   computed: {
+    ...mapState(['role']),
     isAdmin() {
-      console.log(this.role)
-      console.log(this.role == 'Admin')
       return this.role == 'Admin'
     },
-    ...mapState(['role']),
+    isMerchant() {
+      return this.role == 'Businessman'
+    }
   },
   methods: {
     

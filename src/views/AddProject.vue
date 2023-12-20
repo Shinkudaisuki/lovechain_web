@@ -10,12 +10,6 @@
         <el-form-item label="目标金额">
           <el-input v-model="formData.TargetAmount"></el-input>
         </el-form-item>
-        <el-form-item label="已募集金额">
-          <el-input v-model="formData.RaisedAmount"></el-input>
-        </el-form-item>
-        <el-form-item label="审核状态">
-          <el-input v-model="formData.ApprovalStatus"></el-input>
-        </el-form-item>
         <el-form-item label="商家名称">
           <el-input v-model="formData.bus_name"></el-input>
         </el-form-item>
@@ -47,8 +41,6 @@
           Title: '',
           Description: '',
           TargetAmount: '',
-          RaisedAmount: '',
-          ApprovalStatus: '',
           bus_name: '',
         },
         showConfirm: false,
