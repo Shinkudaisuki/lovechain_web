@@ -10,6 +10,7 @@ import ProjectDetail from '../views/ProjectDetail.vue'
 import ManageProject from '../views/ManageProject.vue'
 import EditProject from '../views/EditProject.vue'
 import AddProject from '../views/AddProject.vue'
+import ConfirmProject from '../views/ConfirmProject.vue'
 
 const routes = [
   {
@@ -42,6 +43,10 @@ const routes = [
       {
         path:'AddProject',
         component:AddProject
+      },
+      {
+        path:'ConfirmProject',
+        component:ConfirmProject
       }
     ]
   },

@@ -1,14 +1,7 @@
 <template>
   <div class="app">
     <el-container class="layout-container-outer">
-      <el-header height="40px">
-        <el-row>
-          <el-col :span="4">
-            <el-icon><House /></el-icon>
-            回到主页
-          </el-col>
-        </el-row>
-      </el-header>
+      <el-header>这里是顶部</el-header>
       <el-container class="layout-container-main">
         <el-aside width="200px">
           <el-scrollbar>
@@ -20,13 +13,17 @@
               <el-menu-item index="1" v-if="isAdmin" @click="() => {$router.push('/home/ManageProject')}">
                 项目管理
               </el-menu-item>
-              <el-menu-item index="2" v-if="isMerchant" @click="() => {$router.push('/home/AddProject')}">
+              <el-menu-item index="2" v-if="this.role === 'Businessman'" @click="() => {$router.push('/home/AddProject')}">
                 添加项目
+              </el-menu-item>
+              <el-menu-item index="3" v-if="isAdmin" @click="() => {$router.push('/home/ConfirmProject')}">
+                项目确认
               </el-menu-item>
             </el-menu>
           </el-scrollbar>
         </el-aside>
         <el-main>
+        
           <router-view/>
         </el-main>
       </el-container>
@@ -45,13 +42,12 @@ export default {
     }
   },
   computed: {
-    ...mapState(['role']),
     isAdmin() {
+      console.log(this.role)
+      console.log(this.role == 'Admin')
       return this.role == 'Admin'
     },
-    isMerchant() {
-      return this.role == 'Businessman'
-    }
+    ...mapState(['role']),
   },
   methods: {
     
@@ -69,6 +65,7 @@ export default {
   width: calc(100vw - 200px);
 }
 .layout-container-outer .el-header {
+  position: relative;
   background-color: var(--el-color-primary-light-7);
   color: var(--el-text-color-primary);
 }
