@@ -3,7 +3,7 @@
     <h1>注册</h1>
     <el-col :span="8" :offset="8">
       <el-card>
-        <el-form :model="registerForm" :rules="registerRules" label-width="auto">
+        <el-form :model="registerForm" :rules="registerRules" ref="registerForm" label-width="auto">
           <el-form-item label="用户名" prop="username">
             <el-input v-model="registerForm.username"></el-input>
           </el-form-item>
@@ -14,7 +14,7 @@
             </el-select>
           </el-form-item>
           <el-form-item label="密码" prop="password">
-            <el-input v-model="registerForm.password" show-password></el-input>
+            <el-input v-model="registerForm.password" show-password @blur="validConfirmPassword"></el-input>
           </el-form-item>
           <el-form-item label="再次输入密码" prop="confirmPassword" required>
             <el-input v-model="registerForm.confirmPassword" show-password></el-input>
@@ -159,6 +159,9 @@ export default {
         .catch(error => (alert("getVerify Post Error")))
       }
 
+    },
+    validConfirmPassword() {
+      this.$refs.registerForm.validateField('confirmPassword').then(() => {}).catch(() => {})
     }
   },
 }
