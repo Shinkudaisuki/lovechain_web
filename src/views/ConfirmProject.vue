@@ -34,14 +34,23 @@
       const projects = ref(null);
   
       const fetchPendingProjects = () => {
-        axios.get('/query/waitlist') 
-          .then(response => {
+        var qParams = {
+            token: this.$store.state.token,
+            role: this.$store.state.role,
+            range: [0, 10]
+        };
+
+        axios.get('/query/waitlist', {
+            params: qParams // 将 qParams 作为请求的参数传递给后端
+        })
+            .then(response => {
             projects.value = response.data;
-          })
-          .catch(error => {
+            })
+            .catch(error => {
             console.error('Error fetching pending projects:', error);
-          });
-      };
+            });
+        };
+
   
       const approveProject = (projectId) => {
         const data = { projectId, status: 'OK' };
