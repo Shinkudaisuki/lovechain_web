@@ -107,11 +107,11 @@ Table of Contents
 @import url("https://fonts.googleapis.com/css?family=Open+Sans:400,600,700");
 @import url("https://fonts.googleapis.com/css?family=Roboto:400,500,700");
 @import url(../vendor/quixnav/quixnav.css);
-@import url("./static/../../icons/simple-line-icons/css/simple-line-icons.css");
-@import url("./static/../../icons/font-awesome-old/css/font-awesome.min.css");
-@import url("./static/../../icons/material-design-iconic-font/css/materialdesignicons.min.css");
-@import url("./static/../../icons/themify-icons/css/themify-icons.css");
-@import url("./static/../../icons/line-awesome/css/line-awesome.min.css");
+@import url("./../../icons/simple-line-icons/css/simple-line-icons.css");
+@import url("./../../icons/font-awesome-old/css/font-awesome.min.css");
+@import url("./../../icons/material-design-iconic-font/css/materialdesignicons.min.css");
+@import url("./../../icons/themify-icons/css/themify-icons.css");
+@import url("./../../icons/line-awesome/css/line-awesome.min.css");
 @import url(../animate/animate.min.css);
 @import url(../aos/css/aos.min.css);
 @import url(../perfect-scrollbar/css/perfect-scrollbar.css);
@@ -5751,7 +5751,7 @@ a {
     max-width: 100%; } }
 
 [data-theme-version="transparent"] {
-  background: url("../static/../images/body/12.jpg");
+  background: url("../../images/body/12.jpg");
   background-repeat: no-repeat;
   background-attachment: fixed;
   background-size: cover;

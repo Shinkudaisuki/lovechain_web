@@ -43,7 +43,7 @@ Sweet-alert JS
         swal({
             title: "Sweet !!",
             text: "Hey, Here's a custom image !!",
-            imageUrl: "../static/assets/images/hand.jpg"
+            imageUrl: "../assets/images/hand.jpg"
         })
     }, document.querySelector(".sweet-html").onclick = function () {
         swal({

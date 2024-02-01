@@ -52,22 +52,22 @@
 
 @font-face {
 	font-family: 'themify';
-	src:url('../static/../fonts/themify.eot?-fvbane');
-	src:url('../static/../fonts/themify.eot?#iefix-fvbane') format('embedded-opentype'),
-		url('../static/../fonts/themify.woff?-fvbane') format('woff'),
-		url('../static/../fonts/themify.ttf?-fvbane') format('truetype'),
-		url('../static/../fonts/themify.svg?-fvbane#themify') format('svg');
+	src:url('../../fonts/themify.eot?-fvbane');
+	src:url('../../fonts/themify.eot?#iefix-fvbane') format('embedded-opentype'),
+		url('../../fonts/themify.woff?-fvbane') format('woff'),
+		url('../../fonts/themify.ttf?-fvbane') format('truetype'),
+		url('../../fonts/themify.svg?-fvbane#themify') format('svg');
 	font-weight: normal;
 	font-style: normal;
 }
 
 @font-face {
 	font-family: 'themify';
-	src:url('../static/admin/assets/fonts/themify.eot?-fvbane');
-	src:url('../static/admin/assets/fonts/themify.eot?#iefix-fvbane') format('embedded-opentype'),
-		url('../static/admin/assets/fonts/themify.woff?-fvbane') format('woff'),
-		url('../static/admin/assets/fonts/themify.ttf?-fvbane') format('truetype'),
-		url('../static/admin/assets/fonts/themify.svg?-fvbane#themify') format('svg');
+	src:url('../admin/assets/fonts/themify.eot?-fvbane');
+	src:url('../admin/assets/fonts/themify.eot?#iefix-fvbane') format('embedded-opentype'),
+		url('../admin/assets/fonts/themify.woff?-fvbane') format('woff'),
+		url('../admin/assets/fonts/themify.ttf?-fvbane') format('truetype'),
+		url('../admin/assets/fonts/themify.svg?-fvbane#themify') format('svg');
 	font-weight: normal;
 	font-style: normal;
 }
