@@ -150,11 +150,14 @@
                             }, 1000);
                         }
                         else if (window.debug) {
+                            console.log('debug login');
                             $.ajaxSetup({
                                 headers: {
                                     'Authorization': 'Bearer Debug'
                                 }
                             });
+                            sessionStorage.setItem('token', 'debug_login_token');
+                            window.location.href = './index.html';
                         }
                         else {
                             let errorModal = $('#login-fail');
