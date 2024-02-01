@@ -113,8 +113,7 @@
             document.getElementById('phone-group').classList.remove('was-validated');
         }
         function validateForm() {
-            let formEL = $('#form')[0];
-            return formEL.checkValidity();
+            return $('#form')[0].checkValidity();
         }
     </script>
     <script>
@@ -173,9 +172,15 @@
     <script>
         "use strict";
         $(document).ready(() => {
-            let allInputDivs = $('input').blur((event) => {
+            $('input').blur((event) => {
                 let target = $(event.target);
                 target.parents('div.form-group').first()[0].classList.add('was-validated')
+            })
+            $('#form').submit(() => {
+                let target = $(event.target);
+                target.children('div.form-group').each((index, el) => {
+                    el.classList.add('was-validated');
+                })
             })
 
             let phone = $('#phone');
