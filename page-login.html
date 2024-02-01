@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="zh-CN" class="h-100">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>Focus - Bootstrap Admin Dashboard </title>
+    <!-- Favicon icon -->
+    <link rel="icon" type="image/png" sizes="16x16" href="./static/images/favicon.png">
+    <link href="./static/css/style.css" rel="stylesheet">
+
+</head>
+
+<body class="h-100">
+    <div class="authincation h-100">
+        <div class="container-fluid h-100">
+            <div class="row justify-content-center h-100 align-items-center">
+                <div class="col-md-6">
+                    <div class="authincation-content">
+                        <div class="row no-gutters">
+                            <div class="col-xl-12">
+                                <div class="auth-form">
+                                    <h4 class="text-center mb-4">登录</h4>
+                                    <form action="" class="needs-validation" novalidate>
+                                        <div class="form-group">
+                                            <label><strong>用户名</strong></label>
+                                            <input type="text" id="username" class="form-control" required>
+                                        </div>
+                                        <div class="form-group">
+                                            <label><strong>密码</strong></label>
+                                            <input type="password" id="password" class="form-control" required>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="radio-inline"><input type="radio" name="role-radio" value="user" checked>用户</label>
+                                            <label class="radio-inline"><input type="radio" name="role-radio" value="merchant">商家</label>
+                                            <label class="radio-inline"><input type="radio" name="role-radio" value="administrator">管理员</label>
+                                        </div>
+                                        <div class="form-row d-flex justify-content-between mt-4 mb-2">
+                                            <div class="form-group">
+                                                <div class="form-check ml-2">
+                                                    <input class="form-check-input" type="checkbox" id="basic_checkbox_1">
+                                                    <label class="form-check-label" for="basic_checkbox_1">保持登录(未实现)</label>
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <a href="page-forgot-password.html">忘记密码?(未实现)</a>
+                                            </div>
+                                        </div>
+                                        <div class="text-center">
+                                            <button type="submit" class="btn btn-primary btn-block">登录</button>
+                                        </div>
+                                    </form>
+                                    <div class="new-account mt-3">
+                                        <p>没有账号? <a class="text-primary" href="./page-register.html">注册</a></p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="login-fail" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-body">
+                <div class="alert alert-danger" role="alert">
+                    用户名或密码错误
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!--**********************************
+        Scripts
+    ***********************************-->
+    <!-- Required vendors -->
+    <script src="./static/vendor/global/global.min.js"></script>
+    <script src="./static/js/quixnav-init.js"></script>
+    <script src="./static/js/custom.min.js"></script>
+
+    <script src="./static/js/crypto-js/crypto-js.js"></script>
+    <script src="./static/assets/js/lib/jquery.min.js"></script>
+    <script src="./static/assets/js/lib/bootstrap.min.js"></script>
+    <script>
+        (function() {
+            "use strict";
+            window.addEventListener('load', function() {
+                $.post('/administrator/login/verify', function(data) {
+                    console.log(data);
+                    sessionStorage.setItem('verify', data.verify);
+                });
+            }, false);
+        })();
+    </script>
+    <script>
+        (function() {
+            "use strict";
+            window.addEventListener('load', function() {
+                var forms = document.getElementsByClassName("needs-validation");
+                var validation = Array.prototype.filter.call(forms, function(form) {
+                    form.addEventListener('submit', function(event) {
+                        event.preventDefault();
+                        event.stopPropagation();
+                        form.classList.add('was-validated');
+
+                        let loginData = new FormData();
+                        let md5Password = CryptoJS.MD5(document.getElementById('password').value).toString();
+                        loginData.append('username', document.getElementById('username').value);
+                        loginData.append('password', md5Password);
+                        loginData.append('verify', sessionStorage.getItem('verify'));
+                        let userType;
+                        document.getElementsByName('role-radio').forEach((radio) => {
+                            if (radio.checked) {
+                                userType = radio.value;
+                            }
+                        });
+                        loginData.append('userType', userType);
+                        let loginUrl = `/${userType}/login`;
+                        let is_verify;
+                        let error_code;
+                        $.ajax({
+                            async: false,
+                            url: loginUrl,
+                            type: 'POST',
+                            data: loginData,
+                            processData: false,
+                            contentType: false,
+                            success: function(data) {
+                            sessionStorage.setItem('token', data.token);
+                            is_verify = data.is_verify;
+                            error_code = data.error_code;
+                            }
+                        });
+                        if (is_verify) {
+                            $.ajaxSetup({
+                                headers: {
+                                    'Authorization': 'Bearer ' + sessionStorage.getItem('token')
+                                }
+                            });
+                            window.location.href = './index.html';
+                        }
+                        else if (error_code) {
+                            let errorModal = $('#login-fail');
+                            errorModal.modal('show');
+                            setTimeout(() => {
+                                errorModal.modal('hide');
+                            }, 1000);
+                        }
+                        else if (window.debug) {
+                            $.ajaxSetup({
+                                headers: {
+                                    'Authorization': 'Bearer Debug'
+                                }
+                            });
+                        }
+                        else {
+                            let errorModal = $('#login-fail');
+                            errorModal.modal('show');
+                            setTimeout(() => {
+                                errorModal.modal('hide');
+                            }, 1000);
+                        }
+                        form.classList.add('was-validated');
+                    }, false)
+                })
+            }, false)
+        })();
+    </script>
+</body>
+
+</html>
