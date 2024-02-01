@@ -1,11 +1,11 @@
-@import "./../../abstracts/variable";
+@import "./static/../../abstracts/variable";
 
 
 
 [data-theme-version="transparent"] {
 
     
-    background: url('../images/body/12.jpg');
+    background: url('../static/images/body/12.jpg');
     background-repeat: no-repeat;
     background-attachment: fixed;
     background-size: cover;

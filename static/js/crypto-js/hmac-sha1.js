@@ -1,11 +1,11 @@
 ;(function (root, factory, undef) {
 	if (typeof exports === "object") {
 		// CommonJS
-		module.exports = exports = factory(require("./core"), require("./sha1"), require("./hmac"));
+		module.exports = exports = factory(require("./static/core"), require("./sha1"));
 	}
 	else if (typeof define === "function" && define.amd) {
 		// AMD
-		define(["./core", "./sha1", "./hmac"], factory);
+		define(["./static/core", "./sha1"], factory);
 	}
 	else {
 		// Global (browser)

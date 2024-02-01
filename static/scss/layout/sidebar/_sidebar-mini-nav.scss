@@ -1,5 +1,5 @@
-@import "../../abstracts/_mixin";
-@import "../../abstracts/_variable";
+@import "../static/../abstracts/_mixin";
+@import "../static/../abstracts/_variable";
 
 @include custommq($min: 768px) {
 
