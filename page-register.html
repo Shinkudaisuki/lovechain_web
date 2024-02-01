@@ -176,6 +176,11 @@
                 let target = $(event.target);
                 target.parents('div.form-group').first()[0].classList.add('was-validated')
             })
+            $('input').focus((event) => {
+                let target = $(event.target);
+                target.parents('div.form-group').first()[0].classList.remove('was-validated')
+            })
+
             $('#form').submit(() => {
                 let target = $(event.target);
                 target.children('div.form-group').each((index, el) => {
