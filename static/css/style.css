@@ -16915,7 +16915,7 @@ table.dataTable.display tbody td {
 
 .auth-form {
   padding: 50px 50px; }
-  .auth-form .btn {
+  .auth-form .btn-primary {
     height: 50px;
     font-weight: 700; }
   .auth-form .page-back {
