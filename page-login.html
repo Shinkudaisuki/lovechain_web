@@ -1,6 +1,15 @@
 <!DOCTYPE html>
 <html lang="zh-CN" class="h-100">
 
+<!--
+    using following re pattern to replace when deploy on Django:
+    Search:         ".{1,3}/static/(.*?)"
+    Replace with:   "{% static '$1' %}"
+
+    Search:         /(?:(?:user)|(?:merchant)|(?:administrator))/
+    Replace with:   /
+-->
+
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -77,15 +86,10 @@
     <script src="./static/assets/js/lib/jquery.min.js"></script>
     <script src="./static/assets/js/lib/bootstrap.min.js"></script>
     <script>
-        (function() {
-            "use strict";
-            window.addEventListener('load', function() {
-                $.post('/user/login/verify', function(data) {
-                    console.log(data);
-                    sessionStorage.setItem('verify', data.verify);
-                });
-            }, false);
-        })();
+        "use strict";
+        function getUserType() {
+            return $('input[type="radio"]:checked').val();
+        }
     </script>
     <script>
         (function() {
@@ -108,24 +112,29 @@
                             return;
                         }
 
+                        let prefix = `/${getUserType()}/login`;
+                        let verify;
+                        $.ajax({
+                            async: false,
+                            url: prefix + '/verify',
+                            type: 'POST'
+                        }).done((data) => {
+                            verify = data.verify;
+                        }).fail(() => {
+                            console.log('verify POST Error');
+                        });
+
                         let loginData = new FormData();
                         let md5Password = CryptoJS.MD5(document.getElementById('password').value).toString();
                         loginData.append('username', document.getElementById('username').value);
                         loginData.append('password', md5Password);
-                        loginData.append('verify', sessionStorage.getItem('verify'));
-                        let userType;
-                        document.getElementsByName('role-radio').forEach((radio) => {
-                            if (radio.checked) {
-                                userType = radio.value;
-                            }
-                        });
-                        loginData.append('userType', userType);
-                        let loginUrl = `/${userType}/login`;
+                        loginData.append('verify', verify);
                         let is_verify;
                         let error_code;
+                        let userType = getUserType()
                         $.ajax({
                             async: false,
-                            url: loginUrl,
+                            url: prefix,
                             type: 'POST',
                             data: loginData,
                             processData: false,

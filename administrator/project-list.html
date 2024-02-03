@@ -228,7 +228,7 @@
                                             <tr>
                                                 <th scope="col">#</th>
                                                 <th scope="col">标题</th>
-                                                <th scope="col">详情</th>
+                                                <th scope="col">操纵</th>
                                             </tr>
                                         </thead>
                                         <tbody id="projects">
@@ -301,7 +301,12 @@
                     <tr>
                         <th class="text-muted">${project.ProjectID}</th>
                         <td class="text-muted">${project.Title}</td>
-                        <td><button type="button" class="btn btn-outline-primary" onclick="viewDetail(this)">查看</button></td>
+                        <td>
+                            <button type="button" class="btn btn-outline-primary" onclick="viewDetail(this)">查看</button>
+                            <button type="button" class="btn btn-outline-primary">修改</button>
+                            <button type="button" class="btn btn-outline-primary">删除</button>
+                            <button type="button" class="btn btn-outline-primary">审核</button>
+                        </td>
                     </tr>`;
                 });
                 $('#projects').html(content);
@@ -314,7 +319,7 @@
         "use strict";
         function viewDetail(btn) {
             let title = $(btn).parent().prev().text();
-            window.location.href = './user/project-detail.html';
+            window.location.href = './administrator/project-detail.html';
         }
         function logout() {
             sessionStorage.removeItem('token');

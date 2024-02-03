@@ -1,6 +1,15 @@
 <!DOCTYPE html>
 <html lang="zh-CN" class="h-100">
 
+<!--
+    using following re pattern to replace when deploy on Django:
+    Search:         ".{1,3}/static/(.*?)"
+    Replace with:   "{% static '$1' %}"
+
+    Search:         /(?:(?:user)|(?:merchant)|(?:administrator))/
+    Replace with:   /
+-->
+
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -268,7 +277,7 @@
             })
         })
     </script>
-    <script>
+<!--     <script>
         "use strict";
         (() => {
             $.post('/user/register/verify', function(data) {
@@ -276,7 +285,7 @@
                 sessionStorage.setItem('verify', data.verify);
             });
         })()
-    </script>
+    </script> -->
 </body>
 
 </html>

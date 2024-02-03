@@ -3,8 +3,11 @@
 
 <!--
     using following re pattern to replace when deploy on Django:
-    ".{1,3}/static/(.*?)"
-    "{% static '$1' %}"
+    Search:         ".{1,3}/static/(.*?)"
+    Replace with:   "{% static '$1' %}"
+
+    Search:         /(?:(?:user)|(?:merchant)|(?:administrator))/
+    Replace with:   /
 -->
 
 <head>
@@ -159,7 +162,7 @@
                                         <i class="icon-envelope-open"></i>
                                         <span class="ml-2">Inbox </span>
                                     </a>
-                                    <a href="javascript: void(0)" id="logout" class="dropdown-item">
+                                    <a href="javascript: void(0)" onclick="logout()" class="dropdown-item">
                                         <i class="icon-key"></i>
                                         <span class="ml-2">Logout </span>
                                     </a>
@@ -833,18 +836,15 @@
 
 
     <script src="./static/js/dashboard/dashboard-1.js"></script>
-    
+        
+    <script src="../static/js/set-header.js"></script>
+
     <script>
-        (function() {
-            "use strict";
-            window.addEventListener('load', () => {
-                let el = document.getElementById('logout');
-                el.onclick = (event) => {
-                    sessionStorage.removeItem('token');
-                    window.location.href = '../page-login.html';
-                }
-            }, false);
-        })()
+        "use strict";
+        function logout() {
+            sessionStorage.removeItem('token');
+            window.location.href = '../page-login.html';
+        }
     </script>
 
 </body>
