@@ -142,7 +142,7 @@
                                     'Authorization': 'Bearer ' + sessionStorage.getItem('token')
                                 }
                             });
-                            window.location.href = './index.html';
+                            window.location.href = `./${userType}/index.html`;
                         }
                         else if (window.debug) {
                             console.log('debug login');
@@ -152,7 +152,7 @@
                                 }
                             });
                             sessionStorage.setItem('token', 'debug_login_token');
-                            window.location.href = './index.html';
+                            window.location.href = `./${userType}/index.html`;
                         }
                         else {
                             document.getElementById('password').setCustomValidity('用户名或密码错误');
