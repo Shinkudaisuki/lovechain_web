@@ -1,6 +1,12 @@
 <!DOCTYPE html>
 <html lang="en">
 
+<!--
+    using following re pattern to replace when deploy on Django:
+    ".{1,3}/static/(.*?)"
+    "{% static '$1' %}"
+-->
+
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">

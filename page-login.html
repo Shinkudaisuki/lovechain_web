@@ -132,6 +132,7 @@
                             contentType: false,
                             success: function(data) {
                             sessionStorage.setItem('token', data.token);
+                            sessionStorage.setItem('role', userType);
                             is_verify = data.is_verify;
                             error_code = data.error_code;
                             }

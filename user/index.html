@@ -1,6 +1,12 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 
+<!--
+    using following re pattern to replace when deploy on Django:
+    ".{1,3}/static/(.*?)"
+    "{% static '$1' %}"
+-->
+
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -835,7 +841,7 @@
                 let el = document.getElementById('logout');
                 el.onclick = (event) => {
                     sessionStorage.removeItem('token');
-                    window.location.href = './page-login.html';
+                    window.location.href = '../page-login.html';
                 }
             }, false);
         })()
