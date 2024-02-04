@@ -1,9 +1,9 @@
 ﻿一、主要目标
 √ 迁移项目列表界面
-迁移项目详情界面（shinkudaisuki on working）
-迁移项目编辑界面
+√ 迁移项目详情界面
+迁移项目编辑界面（shinkudaisuki on working）
 迁移项目增加页面
-迁移项目审核页面
 要求：分用户迁移页面，分别迁移至administrator、merchant和user文件夹下
 
 二、当前任务
+增加用户充值接口，考虑直接与项目捐款对接
