@@ -55,7 +55,7 @@
                                                 </div>
                                             </div>
                                             <div class="form-group">
-                                                <a href="page-forgot-password.html">忘记密码?(未实现)</a>
+                                                <a href="page-forgot-password">忘记密码?(未实现)</a>
                                             </div>
                                         </div>
                                         <div class="text-center">
@@ -63,7 +63,7 @@
                                         </div>
                                     </form>
                                     <div class="new-account mt-3">
-                                        <p>没有账号? <a class="text-primary" href="./page-register.html">注册</a></p>
+                                        <p>没有账号? <a class="text-primary" href="./page-register">注册</a></p>
                                     </div>
                                 </div>
                             </div>
@@ -152,7 +152,7 @@
                                     'Authorization': 'Bearer ' + sessionStorage.getItem('token')
                                 }
                             });
-                            window.location.href = `./${userType}/index.html`;
+                            window.location.href = `./${userType}/index`;
                         }
                         else if (window.debug) {
                             console.log('debug login');
@@ -162,7 +162,7 @@
                                 }
                             });
                             sessionStorage.setItem('token', 'debug_login_token');
-                            window.location.href = `./${userType}/index.html`;
+                            window.location.href = `./${userType}/index`;
                         }
                         else {
                             document.getElementById('password').setCustomValidity('用户名或密码错误');
