@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 
 <!--
@@ -219,41 +219,40 @@
                     <div class="col-lg-12">
                         <div class="card">
                             <div class="card-header">
-                                <h4 class="card-title">项目列表</h4>
+                                <h4 class="card-title">编辑项目</h4>
                             </div>
                             <div class="card-body">
-                                <div class="table-responsive">
-                                    <table class="table">
-                                        <thead class="thead-primary">
-                                            <tr>
-                                                <th scope="col">#</th>
-                                                <th scope="col">标题</th>
-                                                <th scope="col">操作</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody id="projects">
-                                        </tbody>
-                                    </table>
+                                <div class="basic-form">
+                                    <form id="edit-form" action="javascript: void(0)">
+                                        <div class="form-row">
+                                            <div class="form-group col-md-12">
+                                                <label>项目名称</label>
+                                                <div>
+                                                    <input id="p-title" name="title" type="text" class="form-control">
+                                                </div>
+                                            </div>
+                                            <div class="form-group col-md-12">
+                                                <label>项目描述</label>
+                                                <div>
+                                                    <textarea id="p-desc" name="desc" class="form-control" rows="4"></textarea>
+                                                </div>
+                                            </div>
+                                            <div class="form-group col-md-6">
+                                                <label>目标金额</label>
+                                                <div class="input-group">
+                                                    <input id="p-target" name="money" type="text" class="form-control">
+                                                    <div class="input-group-text">/元</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group row">
+                                            <div class="col-sm-12 text-center">
+                                                <button type="submit" class="btn btn-outline-primary">修改</button>
+                                            </div>
+                                        </div>
+                                    </form>
                                 </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="modal fade" id="delete-modal">
-                    <div class="modal-dialog modal-dialog-centered" role="document">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <h5 class="modal-title">确认</h5>
-                                <button type="button" class="close" data-dismiss="modal"><span>&times;</span>
-                                </button>
-                            </div>
-                            <div class="modal-body text-muted">
-                                <p>确定要删除项目 <span id="delete-id"></span>: <span id="delete-name"></span> 吗？</p>
-                            </div>
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-outline-danger" onclick="deleteProject(this)">删除</button>
-                                <button type="button" class="btn btn-outline-secondary" data-dismiss="modal">取消</button>
+                                
                             </div>
                         </div>
                     </div>
@@ -298,84 +297,126 @@
     <script src="../static/vendor/global/global.min.js"></script>
     <script src="../static/js/quixnav-init.js"></script>
     <script src="../static/js/custom.min.js"></script>
-
+    
+    <!-- Jquery Validation -->
+    <script src="../static/vendor/jquery-validation/jquery.validate.min.js"></script>
+    
     <script src="../static/js/set-header.js"></script>
     
     <script>
         "use strict";
-        $(document).ready(() => {
-            var qParams = {token: sessionStorage.getItem('token'),
-                           role: sessionStorage.getItem('role'),
-                           range: [0, 10]};
-            $.ajax({
-                url: '/query/projectitems',
-                type: 'POST',
-                data: JSON.stringify(qParams),
-                processData: false,
-                contentType: false,
-            }).done((data) => {
-                let projects = data.projects;
-                let content = '';
-                projects.forEach((project) => {
-                    content += `
-                    <tr>
-                        <th class="text-muted">${project.ProjectID}</th>
-                        <td class="text-muted">${project.Title}</td>
-                        <td>
-                            <a href="javascript:void(0)" class="ml-2" onclick="viewDetail(this)" data-toggle="tooltip" data-placement="top" title="查看">
-                                <i class="fa fa-eye color-muted"></i>
-                            </a>
-                            <a href="javascript:void(0)" class="ml-2" onclick="viewEdit(this)" data-toggle="tooltip" data-placement="top" title="修改">
-                                <i class="fa fa-pencil color-muted"></i>
-                            </a>
-                            <a href="javascript:void(0)" class="ml-2" onclick="confirmDelete(this)" data-toggle="tooltip" data-placement="top" title="删除">
-                                <i class="fa fa-trash color-muted"></i>
-                            </a>
-                        </td>
-                    </tr>`;
-                });
-                $('#projects').html(content);
-            }).fail(() => {
-                console.log('projectitems POST Error');
-            });
-        });
-    </script>
-    <script>
-        "use strict";
-        function confirmDelete(dom) {
-            let title = $(dom).parent().prev().text();
-            let pid = $(dom).parent().prev().prev().text();
-            $('#delete-name').html(title);
-            $('#delete-id').html(pid);
-            $('#delete-modal').modal('show');
-        }
-        function deleteProject(dom) {
-            let pid = $('#delete-id').text();
-            $.ajax({
-                url: '/query/projectchanges',
-                type: 'POST',
-                contentType: 'application/json',
-                data: JSON.stringify({operationType: 'delete', ProjectID: pid}),
-                processData: false
-            }).done(() => {
-                window.location.reload();
-            }).fail(() => {
-                console.log('deleteProject POST Error');
-            })
-            $('#delete-modal').modal('hide');
-        }
-        function viewDetail(dom) {
-            let title = $(dom).parent().prev().text();
-            window.location.href = `./merchant/project-detail?title=${title}`;
-        }
-        function viewEdit(dom) {
-            let title = $(dom).parent().prev().text();
-            window.location.href = `./administrator/project-edit?title=${title}`;
+        function getQueryString() {
+            let rawQueryString = location.search;
+            let queryString = new Object();
+            if (rawQueryString.indexOf("?") != -1) {
+                let strippedQueryString = rawQueryString.substring(1);
+                var queryStringList = strippedQueryString.split('&');
+                for (var i = 0; i < queryStringList.length; i++) {
+                    queryString[queryStringList[i].split('=')[0]] = decodeURIComponent(queryStringList[i].split('=')[1]);
+                }
+            }
+            return queryString;
         }
         function logout() {
             sessionStorage.removeItem('token');
             window.location.href = '../page-login';
         }
+    </script>
+    <script>
+        "use strict";
+        $(document).ready(() => {
+            let title = getQueryString().title;
+            let originData;
+            $.ajax({
+                url: '/query/projectdetails',
+                type: 'POST',
+                contentType: 'application/json',
+                data: JSON.stringify({ProjectTitle: title}),
+                processData: false
+            }).done((data) => {
+                window.ProjectID = data.ProjectID;
+                $('#p-title').val(data.Title);
+                $('#p-desc').val(data.Description);
+                $('#p-target').val(data.TargetAmount)
+                originData = {
+                    Title: data.Title,
+                    Description: data.Description,
+                    TargetAmount: data.TargetAmount
+                }
+            }).fail(() => {
+                console.log('projectdetails POST Error');
+                window.ProjectID = 0;
+            })
+
+            $.validator.addMethod('changed', () => {
+                return !((originData.Title == $('#p-title').val()) && (originData.Description == $('#p-desc').val()) && (originData.TargetAmount == $('#p-target').val()))
+            },'至少改变一项的内容')
+            $('#edit-form').validate({
+                rules: {
+                    "title": {
+                        required: true,
+                        changed: true,
+                    },
+                    "desc": {
+                        required: true,
+                        changed: true,
+                    },
+                    "money": {
+                        required: true,
+                        min: 0
+                    }
+                },
+                messages: {
+                    "title": {
+                        required: "请输入项目名称"
+                    },
+                    "desc": {
+                        required: "请输入项目描述"
+                    },
+                    "money": {
+                        required: "请输入金额",
+                        min: "金额必须为正数"
+                    }
+                },
+                ignore: [],
+                errorClass: "invalid-feedback animated fadeInUp",
+                errorElement: "div",
+                errorPlacement: function(e, a) {
+                    if (jQuery(a).parents(".form-group > div").length == 0) {
+
+                    }
+                    jQuery(a).parents(".form-group > div").append(e)
+                },
+                highlight: function(e) {
+                    jQuery(e).closest(".form-group").removeClass("is-invalid").addClass("is-invalid")
+                },
+                success: function(e) {
+                    jQuery(e).closest(".form-group").removeClass("is-invalid").addClass("is-valid")
+                }
+            });
+            $('#edit-form').submit(() => {
+                if (! $('#edit-form').valid()) {
+                    return;
+                }
+                $.ajax({
+                    url: '/query/projectchanges',
+                    type: 'POST',
+                    contentType: 'application/json',
+                    data: JSON.stringify({
+                        ProjectID: window.ProjectID,
+                        Title: $('#p-title').val(),
+                        Description: $('#p-desc').val(),
+                        TargetAmount: $('#p-target').val(),
+                        operationType: 'edit'
+                    }),
+                    processData: false
+                }).done(() => {
+                    window.location.href = './merchant/project-list';
+                }).fail(() => {
+                    console.log('edit POST Error');
+                })
+            })
+        });
     </script>
 
 </body>

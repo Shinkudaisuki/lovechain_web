@@ -240,19 +240,22 @@
                     </div>
                 </div>
 
-                <div class="modal fade" id="delete-modal">
+                <div class="modal fade" id="confirm-modal">
                     <div class="modal-dialog modal-dialog-centered" role="document">
-                        <div class="modal-header">
-                            <h5 class="modal-title">确认</h5>
-                            <button type="button" class="close" data-dismiss="modal"><span>&times;</span>
-                            </button>
-                        </div>
-                        <div class="modal-body">
-                            <p>确定要删除项目 <span id="delete-id"></span>: <span id="delete-name"></span> 吗？</p>
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-outline-danger" onclick="deleteProject(this)">删除</button>
-                            <button type="button" class="btn btn-outline-secondary" data-dismiss="modal">取消</button>
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title">审核</h5>
+                                <button type="button" class="close" data-dismiss="modal"><span>&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body text-muted">
+                                <p>选择 <span id="confirm-id"></span>: <span id="confirm-name"></span> 的审核状态</p>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-outline-success" onclick="confirmProject(this, 'ok')">通过</button>
+                                <button type="button" class="btn btn-outline-danger" onclick="confirmProject(this, 'refuse')">拒绝</button>
+                                <button type="button" class="btn btn-outline-secondary" data-dismiss="modal">取消</button>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -323,11 +326,8 @@
                             <a href="javascript:void(0)" class="ml-2" onclick="viewDetail(this)" data-toggle="tooltip" data-placement="top" title="查看">
                                 <i class="fa fa-eye color-muted"></i>
                             </a>
-                            <a href="javascript:void(0)" class="ml-2" onclick="viewEdit(this)" data-toggle="tooltip" data-placement="top" title="修改">
-                                <i class="fa fa-pencil color-muted"></i>
-                            </a>
-                            <a href="javascript:void(0)" class="ml-2" onclick="confirmDelete(this)" data-toggle="tooltip" data-placement="top" title="删除">
-                                <i class="fa fa-trash color-muted"></i>
+                            <a href="javascript:void(0)" class="ml-2" onclick="confirmModal(this)" data-toggle="tooltip" data-placement="top" title="审核">
+                                <i class="fa fa-key color-muted"></i>
                             </a>
                         </td>
                     </tr>`;
@@ -340,35 +340,31 @@
     </script>
     <script>
         "use strict";
-        function confirmDelete(dom) {
+        function confirmModal(dom) {
             let title = $(dom).parent().prev().text();
             let pid = $(dom).parent().prev().prev().text();
-            $('#delete-name').html(title);
-            $('#delete-id').html(pid);
-            $('#delete-modal').modal('show');
+            $('#confirm-name').html(title);
+            $('#confirm-id').html(pid);
+            $('#confirm-modal').modal('show');
         }
-        function deleteProject(dom) {
-            let pid = $('#delete-id').val();
+        function confirmProject(dom, status) {
+            let pid = $('#confirm-id').text();
             $.ajax({
-                url: '/query/projectchanges',
+                url: '/query/projectapproval',
                 type: 'POST',
                 contentType: 'application/json',
-                data: JSON.stringify({operationType: 'delete', ProjectID: pid}),
+                data: JSON.stringify({ApprovalStatus: status, ProjectID: pid}),
                 processData: false
             }).done(() => {
                 window.location.reload();
             }).fail(() => {
-                console.log('deleteProject POST Error');
+                console.log('confirmProject POST Error');
             })
-            $('#delete-modal').modal('hide');
+            $('#confirm-modal').modal('hide');
         }
         function viewDetail(dom) {
             let title = $(dom).parent().prev().text();
             window.location.href = `./administrator/project-detail?title=${title}`;
-        }
-        function viewEdit(dom) {
-            let title = $(dom).parent().prev().text();
-            window.location.href = `./administrator/project-edit?title=${title}`;
         }
         function logout() {
             sessionStorage.removeItem('token');

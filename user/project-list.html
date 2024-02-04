@@ -302,7 +302,11 @@
                     <tr>
                         <th class="text-muted">${project.ProjectID}</th>
                         <td class="text-muted">${project.Title}</td>
-                        <td><button type="button" class="btn btn-outline-primary" onclick="viewDetail(this)">查看</button></td>
+                        <td>
+                            <a href="javascript:void(0)" class="ml-2" onclick="viewDetail(this)" data-toggle="tooltip" data-placement="top" title="查看">
+                                <i class="fa fa-eye color-muted"></i>
+                            </a>
+                        </td>
                     </tr>`;
                 });
                 $('#projects').html(content);
@@ -313,8 +317,8 @@
     </script>
     <script>
         "use strict";
-        function viewDetail(btn) {
-            let title = $(btn).parent().prev().text();
+        function viewDetail(dom) {
+            let title = $(dom).parent().prev().text();
             window.location.href = `./user/project-detail?title=${title}`;
         }
         function logout() {
