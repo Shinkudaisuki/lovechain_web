@@ -228,7 +228,7 @@
                                             <tr>
                                                 <th scope="col">#</th>
                                                 <th scope="col">标题</th>
-                                                <th scope="col">操纵</th>
+                                                <th scope="col">操作</th>
                                             </tr>
                                         </thead>
                                         <tbody id="projects">
@@ -236,6 +236,23 @@
                                     </table>
                                 </div>
                             </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="modal fade" id="delete-modal">
+                    <div class="modal-dialog modal-dialog-centered" role="document">
+                        <div class="modal-header">
+                            <h5 class="modal-title">确认</h5>
+                            <button type="button" class="close" data-dismiss="modal"><span>&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <p>确定要删除项目 <span id="delete-id"></span>: <span id="delete-name"></span> 吗？</p>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-outline-danger" onclick="deleteProject(this)">删除</button>
+                            <button type="button" class="btn btn-outline-secondary" data-dismiss="modal">取消</button>
                         </div>
                     </div>
                 </div>
@@ -279,6 +296,7 @@
     <script src="../static/vendor/global/global.min.js"></script>
     <script src="../static/js/quixnav-init.js"></script>
     <script src="../static/js/custom.min.js"></script>
+    
     <script src="../static/js/set-header.js"></script>
     
     <script>
@@ -302,10 +320,15 @@
                         <th class="text-muted">${project.ProjectID}</th>
                         <td class="text-muted">${project.Title}</td>
                         <td>
-                            <button type="button" class="btn btn-outline-primary" onclick="viewDetail(this)">查看</button>
-                            <button type="button" class="btn btn-outline-primary">修改</button>
-                            <button type="button" class="btn btn-outline-primary">删除</button>
-                            <button type="button" class="btn btn-outline-primary">审核</button>
+                            <a href="javascript:void(0)" class="ml-2" onclick="viewDetail(this)" data-toggle="tooltip" data-placement="top" title="查看">
+                                <i class="fa fa-eye color-muted"></i>
+                            </a>
+                            <a href="javascript:void(0)" class="ml-2" onclick="viewEdit(this)" data-toggle="tooltip" data-placement="top" title="修改">
+                                <i class="fa fa-pencil color-muted"></i>
+                            </a>
+                            <a href="javascript:void(0)" class="ml-2" onclick="confirmDelete(this)" data-toggle="tooltip" data-placement="top" title="删除">
+                                <i class="fa fa-trash color-muted"></i>
+                            </a>
                         </td>
                     </tr>`;
                 });
@@ -317,9 +340,35 @@
     </script>
     <script>
         "use strict";
-        function viewDetail(btn) {
-            let title = $(btn).parent().prev().text();
+        function confirmDelete(dom) {
+            let title = $(dom).parent().prev().text();
+            let pid = $(dom).parent().prev().prev().text();
+            $('#delete-name').html(title);
+            $('#delete-id').html(pid);
+            $('#delete-modal').modal('show');
+        }
+        function deleteProject(dom) {
+            let pid = $('#delete-id').val();
+            $.ajax({
+                url: '/query/projectchanges',
+                type: 'POST',
+                contentType: 'application/json',
+                data: JSON.stringify({operationType: 'delete', ProjectID: pid}),
+                processData: false
+            }).done(() => {
+                window.location.reload();
+            }).fail(() => {
+                console.log('deleteProject POST Error');
+            })
+            $('#delete-modal').modal('hide');
+        }
+        function viewDetail(dom) {
+            let title = $(dom).parent().prev().text();
             window.location.href = `./administrator/project-detail?title=${title}`;
+        }
+        function viewEdit(dom) {
+            let title = $(dom).parent().prev().text();
+            window.location.href = `./administrator/project-edit?title=${title}`;
         }
         function logout() {
             sessionStorage.removeItem('token');
