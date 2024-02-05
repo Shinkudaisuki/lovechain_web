@@ -2,11 +2,11 @@
 √ 迁移项目列表界面
 √ 迁移项目详情界面
 √ 迁移项目编辑界面
-迁移项目增加页面（shinkudaisuki on working）
+√ 迁移项目增加页面
 要求：分用户迁移页面，分别迁移至administrator、merchant和user文件夹下
 
 二、当前任务
-增加用户充值接口，考虑直接与项目捐款对接
+增加用户充值接口，考虑直接与项目捐款对接（shinkudaisuki on working）
 替换每个页面中欢迎文字（<div class="welcome-text">）的内容
 替换每个页面中面包屑（<ol class="breadcrumb">）的内容
 实现每个页面中面包屑的功能

@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 
 <!--
@@ -179,13 +179,24 @@
             <div class="quixnav-scroll">
                 <ul class="metismenu" id="menu">
                     <li class="nav-label first">主菜单</li>
-                    <li><a href="./index" aria-expanded="false">
-                        <i class="icon icon-single-04 col-sm-2"></i>
-                        <span class="nav-text">仪表盘</span></a></li>
+                    <li>
+                        <a href="./index" aria-expanded="false">
+                            <i class="icon icon-single-04 col-sm-2"></i>
+                            <span class="nav-text">仪表盘</span>
+                        </a>
+                    </li>
                     <li class="nav-label">项目</li>
-                    <li><a href="./project-list" aria-expanded="false">
-                        <i class="icon icon-layout-25 col-sm-2"></i>
-                        <span class="nav-text">项目列表</span></a></li>
+                    <li>
+                        <a href="./project-list" aria-expanded="false">
+                            <i class="icon icon-layout-25 col-sm-2"></i>
+                            <span class="nav-text">项目列表</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="./project-add" aria-expanded="false">
+                            <i class="fa fa-plus col-sm-2"></i>
+                            <span class="nav-text">添加项目</span>
+                        </a>
                     </li>
                 </ul>
             </div>
@@ -208,103 +219,51 @@
                     </div>
                     <div class="col-sm-6 p-md-0 justify-content-sm-end mt-2 mt-sm-0 d-flex">
                         <ol class="breadcrumb">
-                            <li class="breadcrumb-item"><a href="javascript:void(0)">App</a></li>
-                            <li class="breadcrumb-item active"><a href="javascript:void(0)">Profile</a></li>
+                            <li class="breadcrumb-item"><a href="javascript:void(0)">Table</a></li>
+                            <li class="breadcrumb-item active"><a href="javascript:void(0)">Bootstrap</a></li>
                         </ol>
                     </div>
                 </div>
                 <!-- row -->
-                <div class="row">
-                    <div class="col-lg-12">
-                        <div class="profile">
-                            <div class="profile-head">
-                                <div class="profile-info">
-                                    <div class="row justify-content-center">
-                                        <div class="col-xl-8">
-                                            <div class="row">
-                                                <div class="col-xl-4 col-sm-4 border-right-1 prf-col">
-                                                    <div class="profile-name">
-                                                        <h4 class="text-muted" id="projectName"></h4>
-                                                        <p>项目名称</p>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+
                 <div class="row">
                     <div class="col-lg-12">
                         <div class="card">
+                            <div class="card-header">
+                                <h4 class="card-title">添加项目</h4>
+                            </div>
                             <div class="card-body">
-                                <div class="profile-tab">
-                                    <div class="custom-tab-1">
-                                        <ul class="nav nav-tabs">
-                                            <li class="nav-item"><a href="#detail" data-toggle="tab" class="nav-link active show">详细信息</a>
-                                            </li>
-                                            <li class="nav-item"><a href="#chart" data-toggle="tab" class="nav-link">资金流图</a>
-                                            </li>
-                                            <li class="nav-item"><a href="#donation" data-toggle="tab" class="nav-link">捐款</a>
-                                            </li>
-                                        </ul>
-                                        <div class="tab-content">
-                                            <div id="detail" class="tab-pane fade active show">
-                                                <div class="my-post-content pt-3">
-                                                    <div class="table-responsive">
-                                                        <table class="table table-bordered verticle-middle table-responsive-sm">
-                                                            <tbody>
-                                                                <tr>
-                                                                    <th scope="col">项目名称</th>
-                                                                    <td scope="col" id="p-title" colspan="3"></th>
-                                                                </tr>
-                                                                <tr>
-                                                                    <th scope="col">描述</th>
-                                                                    <td scope="col" id="p-desc" colspan="3"></th>
-                                                                </tr>
-                                                                <tr>
-                                                                    <th scope="col">目标金额</th>
-                                                                    <td scope="col" id="p-target"></th>
-                                                                    <th scope="col">已募集金额</th>
-                                                                    <td scope="col" id="p-raised"></th>
-                                                                </tr>
-                                                                <tr>
-                                                                    <th scope="col">审核状态</th>
-                                                                    <td scope="col" id="p-approval"></th>
-                                                                    <th scope="col">商家名称</th>
-                                                                    <td scope="col" id="p-m-name"></th>
-                                                                </tr>
-                                                            </tbody>
-                                                        </table>
-                                                    </div>
+                                <div class="basic-form">
+                                    <form id="add-form" action="javascript: void(0)">
+                                        <div class="form-row">
+                                            <div class="form-group col-md-12">
+                                                <label>项目名称</label>
+                                                <div>
+                                                    <input id="p-title" name="title" type="text" class="form-control">
                                                 </div>
                                             </div>
-                                            <div id="chart" class="tab-pane fade">
-                                                <div id="echart" class="mt-3" style="height: 240px; width: 100%"></div>
+                                            <div class="form-group col-md-12">
+                                                <label>项目描述</label>
+                                                <div>
+                                                    <textarea id="p-desc" name="desc" class="form-control" rows="4"></textarea>
+                                                </div>
                                             </div>
-                                            <div id="donation" class="tab-pane fade">
-                                                <div class="basic-form mt-3">
-                                                    <form id="donate-form" action="javascript: void(0)">
-                                                        <div class="form-group row">
-                                                            <label class="col-sm-2 col-form-label">捐款金额</label>
-                                                            <div class="col-sm-10 input-group">
-                                                                <input type="text" id="money" name="money" class="form-control">
-                                                                <div class="input-group-text">/元</div>
-                                                            </div>
-                                                        </div>
-                                                        <div class="form-group row">
-                                                            <div class="col-sm-12 text-center">
-                                                                <button type="submit" class="btn btn-outline-primary">捐款</button>
-                                                            </div>
-                                                        </div>
-                                                    </form>
+                                            <div class="form-group col-md-6">
+                                                <label>目标金额</label>
+                                                <div class="input-group">
+                                                    <input id="p-target" name="money" type="text" class="form-control">
+                                                    <div class="input-group-text">/元</div>
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>
+                                        <div class="form-group row">
+                                            <div class="col-sm-12 text-center">
+                                                <button type="submit" class="btn btn-outline-primary">添加</button>
+                                            </div>
+                                        </div>
+                                    </form>
                                 </div>
+                                
                             </div>
                         </div>
                     </div>
@@ -349,128 +308,54 @@
     <script src="../static/vendor/global/global.min.js"></script>
     <script src="../static/js/quixnav-init.js"></script>
     <script src="../static/js/custom.min.js"></script>
-    <script src="../static/assets/js/lib/echarts.min.js"></script>
     
     <!-- Jquery Validation -->
     <script src="../static/vendor/jquery-validation/jquery.validate.min.js"></script>
-
-
+    
     <script src="../static/js/set-header.js"></script>
-
+    
     <script>
         "use strict";
-        function getQueryString() {
-            let rawQueryString = location.search;
-            let queryString = new Object();
-            if (rawQueryString.indexOf("?") != -1) {
-                let strippedQueryString = rawQueryString.substring(1);
-                var queryStringList = strippedQueryString.split('&');
-                for (var i = 0; i < queryStringList.length; i++) {
-                    queryString[queryStringList[i].split('=')[0]] = decodeURIComponent(queryStringList[i].split('=')[1]);
-                }
-            }
-            return queryString;
-        }
         function logout() {
             sessionStorage.removeItem('token');
             window.location.href = '../page-login';
         }
     </script>
-
     <script>
         "use strict";
         $(document).ready(() => {
-            window.chart = echarts.init(document.getElementById('echart'));
-
-            let title = getQueryString().title;
-            $('#projectName').html(title);
-
-            $.ajax({
-                url: '/query/projectdetails',
-                type: 'POST',
-                contentType: 'application/json',
-                data: JSON.stringify({ProjectTitle: title}),
-                processData: false
-            }).done((data) => {
-                window.ProjectID = data.ProjectID;
-                $('#p-title').html(`<span class="text-muted">${data.Title}</span>`);
-                $('#p-desc').html(`<span class="text-muted">${data.Description}</span>`);
-                $('#p-target').html(`<span class="text-muted">${data.TargetAmount}</span>`);
-                $('#p-raised').html(`<span class="text-muted">${data.RaisedAmount}</span>`);
-                $('#p-approval').html(`<span class="text-muted">${data.ApprovalStatus}</span>`);
-                $('#p-m-name').html(`<span class="text-muted">${data.bus_name}</span>`);
-            }).fail(() => {
-                console.log('获取项目详情失败');
-                window.ProjectID = 0;
-                $('#p-title').html('<span class="text-muted">无标题</span>');
-                $('#p-desc').html('<span class="text-muted">无描述</span>');
-                $('#p-target').html('<span class="text-muted">无</span>');
-                $('#p-raised').html('<span class="text-muted">无</span>');
-                $('#p-approval').html('<span class="text-muted">无</span>');
-                $('#p-m-name').html('<span class="text-muted">无</span>');
-            })
-
-            $.ajax({
-                url: '/query/chart',
-                type: 'POST',
-                contentType: 'application/json',
-                data: JSON.stringify({ProjectTitle: title}),
-                processData: false
-            }).done((data) => {
-                let option = {
-                    title: {text: ''},
-                    tooltip: {},
-                    legend: {
-                        type: 'plain',
-                        show: true
-                    },
-                    series: [
-                        {
-                            type: 'graph',
-                            layout: 'force',
-                            animation: false,
-                            label: {
-                            position: 'left',
-                            formatter: '{b}'
-                            },
-                            draggable: true,
-                            data: data.nodes.map((node, idx) => {node.id=idx;return node;}),
-                            categories: data.categories,
-                            force: {
-                            edgeLength: 20,
-                            repulsion: 20,
-                            gravity: 0.1
-                            },
-                            edges: data.links
-                        }
-                    ]
-                }
-                window.chart.setOption(option);
-            }).fail(() => {
-                console.log('获取项目图表数据失败');
-            })
-        })
-    </script>
-    <script>
-        "use strict";
-        $(document).ready(() => {
-            $('#donate-form').validate({
+            $('#add-form').validate({
                 rules: {
+                    "title": {
+                        required: true,
+                    },
+                    "desc": {
+                        required: true,
+                    },
                     "money": {
                         required: true,
                         min: 0
                     }
                 },
                 messages: {
+                    "title": {
+                        required: "请输入项目名称"
+                    },
+                    "desc": {
+                        required: "请输入项目描述"
+                    },
                     "money": {
-                        required: '请输入捐款金额',
-                        min: '请输入大于零的捐款金额'
+                        required: "请输入金额",
+                        min: "金额必须为正数"
                     }
                 },
                 ignore: [],
                 errorClass: "invalid-feedback animated fadeInUp",
                 errorElement: "div",
                 errorPlacement: function(e, a) {
+                    if (jQuery(a).parents(".form-group > div").length == 0) {
+
+                    }
                     jQuery(a).parents(".form-group > div").append(e)
                 },
                 highlight: function(e) {
@@ -480,28 +365,30 @@
                     jQuery(e).closest(".form-group").removeClass("is-invalid").addClass("is-valid")
                 }
             });
-
-            $('#donate-form').submit(() => {
-                if (! $('#donate-form').valid()) {
+            $('#add-form').submit(() => {
+                if (! $('#add-form').valid()) {
                     return;
                 }
                 $.ajax({
-                    url: '/query/donate',
+                    url: '/query/projectchanges',
                     type: 'POST',
                     contentType: 'application/json',
                     data: JSON.stringify({
-                        ProjectID: window.ProjectID,
-                        count: $('#money').val()}),
-                    processData: false,
+                        Title: $('#p-title').val(),
+                        Description: $('#p-desc').val(),
+                        TargetAmount: $('#p-target').val(),
+                        operationType: 'add'
+                    }),
+                    processData: false
                 }).done(() => {
-                    window.location.reload();
+                    window.location.href = './merchant/project-list';
                 }).fail(() => {
-                    console.log('donate POST Error');
+                    console.log('add POST Error');
                 })
             })
-        })
+        });
     </script>
-    
+
 </body>
 
 </html>
