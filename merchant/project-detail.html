@@ -76,8 +76,8 @@
                                     <i class="mdi mdi-magnify"></i>
                                 </span>
                                 <div class="dropdown-menu p-0 m-0">
-                                    <form>
-                                        <input class="form-control" type="search" placeholder="Search" aria-label="Search">
+                                    <form id="search" action="javascript: void(0)">
+                                        <input id="search-content" class="form-control" type="search" placeholder="Search" aria-label="Search">
                                     </form>
                                 </div>
                             </div>
@@ -371,6 +371,11 @@
     <script>
         "use strict";
         $(document).ready(() => {
+            $('#search').submit(() => {
+                let word = $('#search-content').val()
+                window.location.href = `./search-result?word=${word}`
+            })
+
             window.chart = echarts.init(document.getElementById('echart'));
 
             let title = getQueryString().title;
@@ -439,6 +444,10 @@
                 window.chart.setOption(option);
             }).fail(() => {
                 console.log('获取项目图表数据失败');
+            })
+
+            $('a[data-toggle="tab"]').on('shown.bs.tab', () => {
+                window.chart.resize();
             })
         })
     </script>

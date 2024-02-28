@@ -81,8 +81,8 @@
                                     <i class="mdi mdi-magnify"></i>
                                 </span>
                                 <div class="dropdown-menu p-0 m-0">
-                                    <form>
-                                        <input class="form-control" type="search" placeholder="Search" aria-label="Search">
+                                    <form id="search" action="javascript: void(0)">
+                                        <input id="search-content" class="form-control" type="search" placeholder="Search" aria-label="Search">
                                     </form>
                                 </div>
                             </div>
@@ -847,6 +847,15 @@
         }
     </script>
 
+    <script>
+        "use strict";
+        $(document).ready(() => {
+            $('#search').submit(() => {
+                let word = $('#search-content').val()
+                window.location.href = `./search-result?word=${word}`
+            })
+        })
+    </script>
 </body>
 
 </html>

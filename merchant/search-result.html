@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 
 <!--
@@ -179,24 +179,13 @@
             <div class="quixnav-scroll">
                 <ul class="metismenu" id="menu">
                     <li class="nav-label first">主菜单</li>
-                    <li>
-                        <a href="./index" aria-expanded="false">
-                            <i class="icon icon-single-04 col-sm-2"></i>
-                            <span class="nav-text">仪表盘</span>
-                        </a>
-                    </li>
+                    <li><a href="./index" aria-expanded="false">
+                        <i class="icon icon-single-04 col-sm-2"></i>
+                        <span class="nav-text">仪表盘</span></a></li>
                     <li class="nav-label">项目</li>
-                    <li>
-                        <a href="./project-list" aria-expanded="false">
-                            <i class="icon icon-layout-25 col-sm-2"></i>
-                            <span class="nav-text">项目列表</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="./project-add" aria-expanded="false">
-                            <i class="fa fa-plus col-sm-2"></i>
-                            <span class="nav-text">添加项目</span>
-                        </a>
+                    <li><a href="./project-list" aria-expanded="false">
+                        <i class="icon icon-layout-25 col-sm-2"></i>
+                        <span class="nav-text">项目列表</span></a></li>
                     </li>
                 </ul>
             </div>
@@ -219,13 +208,13 @@
                     </div>
                     <div class="col-sm-6 p-md-0 justify-content-sm-end mt-2 mt-sm-0 d-flex">
                         <ol class="breadcrumb">
-                            <li class="breadcrumb-item"><a href="javascript:void(0)">Table</a></li>
-                            <li class="breadcrumb-item active"><a href="javascript:void(0)">Bootstrap</a></li>
+                            <li class="breadcrumb-item"><a href="javascript:void(0)">App</a></li>
+                            <li class="breadcrumb-item active"><a href="javascript:void(0)">Profile</a></li>
                         </ol>
                     </div>
                 </div>
                 <!-- row -->
-
+                
                 <div class="row">
                     <div class="col-lg-12">
                         <div class="card">
@@ -246,25 +235,6 @@
                                         </tbody>
                                     </table>
                                 </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="modal fade" id="delete-modal">
-                    <div class="modal-dialog modal-dialog-centered" role="document">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <h5 class="modal-title">确认</h5>
-                                <button type="button" class="close" data-dismiss="modal"><span>&times;</span>
-                                </button>
-                            </div>
-                            <div class="modal-body text-muted">
-                                <p>确定要删除项目 <span id="delete-id"></span>: <span id="delete-name"></span> 吗？</p>
-                            </div>
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-outline-danger" onclick="deleteProject(this)">删除</button>
-                                <button type="button" class="btn btn-outline-secondary" data-dismiss="modal">取消</button>
                             </div>
                         </div>
                     </div>
@@ -309,9 +279,34 @@
     <script src="../static/vendor/global/global.min.js"></script>
     <script src="../static/js/quixnav-init.js"></script>
     <script src="../static/js/custom.min.js"></script>
+    <script src="../static/assets/js/lib/echarts.min.js"></script>
+    
+    <!-- Jquery Validation -->
+    <script src="../static/vendor/jquery-validation/jquery.validate.min.js"></script>
+
 
     <script src="../static/js/set-header.js"></script>
-    
+
+    <script>
+        "use strict";
+        function getQueryString() {
+            let rawQueryString = location.search;
+            let queryString = new Object();
+            if (rawQueryString.indexOf("?") != -1) {
+                let strippedQueryString = rawQueryString.substring(1);
+                var queryStringList = strippedQueryString.split('&');
+                for (var i = 0; i < queryStringList.length; i++) {
+                    queryString[queryStringList[i].split('=')[0]] = decodeURIComponent(queryStringList[i].split('=')[1]);
+                }
+            }
+            return queryString;
+        }
+        function logout() {
+            sessionStorage.removeItem('token');
+            window.location.href = '../page-login';
+        }
+    </script>
+
     <script>
         "use strict";
         $(document).ready(() => {
@@ -320,15 +315,14 @@
                 window.location.href = `./search-result?word=${word}`
             })
 
-            var qParams = {token: sessionStorage.getItem('token'),
-                           role: sessionStorage.getItem('role'),
-                           range: [0, 10]};
+            let word = getQueryString().word;
             $.ajax({
-                url: '/query/projectitems',
+                url: '/query/search',
                 type: 'POST',
-                data: JSON.stringify(qParams),
+                contentType: 'application/json',
+                data: JSON.stringify({
+                    word: word}),
                 processData: false,
-                contentType: false,
             }).done((data) => {
                 let projects = data.projects;
                 let content = '';
@@ -341,59 +335,19 @@
                             <a href="javascript:void(0)" class="ml-2" onclick="viewDetail(this)" data-toggle="tooltip" data-placement="top" title="查看">
                                 <i class="fa fa-eye color-muted"></i>
                             </a>
-                            <a href="javascript:void(0)" class="ml-2" onclick="viewEdit(this)" data-toggle="tooltip" data-placement="top" title="修改">
-                                <i class="fa fa-pencil color-muted"></i>
-                            </a>
-                            <a href="javascript:void(0)" class="ml-2" onclick="confirmDelete(this)" data-toggle="tooltip" data-placement="top" title="删除">
-                                <i class="fa fa-trash color-muted"></i>
+                            <a href="javascript:void(0)" class="ml-2" onclick="confirmModal(this)" data-toggle="tooltip" data-placement="top" title="审核">
+                                <i class="fa fa-key color-muted"></i>
                             </a>
                         </td>
                     </tr>`;
                 });
                 $('#projects').html(content);
             }).fail(() => {
-                console.log('projectitems POST Error');
-            });
-        });
-    </script>
-    <script>
-        "use strict";
-        function confirmDelete(dom) {
-            let title = $(dom).parent().prev().text();
-            let pid = $(dom).parent().prev().prev().text();
-            $('#delete-name').html(title);
-            $('#delete-id').html(pid);
-            $('#delete-modal').modal('show');
-        }
-        function deleteProject(dom) {
-            let pid = $('#delete-id').text();
-            $.ajax({
-                url: '/query/projectchanges',
-                type: 'POST',
-                contentType: 'application/json',
-                data: JSON.stringify({operationType: 'delete', ProjectID: pid}),
-                processData: false
-            }).done(() => {
-                window.location.reload();
-            }).fail(() => {
-                console.log('deleteProject POST Error');
+                console.log('search POST Error');
             })
-            $('#delete-modal').modal('hide');
-        }
-        function viewDetail(dom) {
-            let title = $(dom).parent().prev().text();
-            window.location.href = `./project-detail?title=${title}`;
-        }
-        function viewEdit(dom) {
-            let title = $(dom).parent().prev().text();
-            window.location.href = `./project-edit?title=${title}`;
-        }
-        function logout() {
-            sessionStorage.removeItem('token');
-            window.location.href = '../page-login';
-        }
+        })
     </script>
-
+    
 </body>
 
 </html>
